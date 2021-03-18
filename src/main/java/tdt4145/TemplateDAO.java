@@ -1,3 +1,5 @@
+package tdt4145;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 

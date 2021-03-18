@@ -1,8 +1,7 @@
-import java.io.FileInputStream;
-import java.io.IOException;
+package tdt4145;
+
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
