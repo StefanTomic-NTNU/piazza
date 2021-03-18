@@ -138,11 +138,4 @@ public class UserDAO extends TemplateDAO{
         Arrays.fill(password, 'a');
         return false;
     }
-
-
-
-
-
-
-
 }
