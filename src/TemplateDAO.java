@@ -4,25 +4,25 @@ import java.sql.SQLException;
 
 class TemplateDAO implements AutoCloseable {
 
-    private Connection connection;
+        private Connection connection;
 
-    TemplateDAO() throws SQLException, ClassNotFoundException {
-        DBConn
-        DBConn.connect();
-    }
+        TemplateDAO() throws SQLException {
 
-    Connection getConnection() {
-        return connection;
-    }
-
-
-    @Override
-    public void close() throws SQLException {
-        if (connection != null) {
-
-            connection.close();
+            connection = Database.getInstance().getConnection();
         }
-    }
+
+        Connection getConnection() {
+            return connection;
+        }
+
+
+        @Override
+        public void close() throws SQLException {
+            if (connection != null) {
+
+                connection.close();
+            }
+        }
 
 
 }
