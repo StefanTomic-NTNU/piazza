@@ -9,17 +9,18 @@ public abstract class DBConn {
     public DBConn(){
     }
 
-    public void connect() throws SQLException, ClassNotFoundException {
+    public void connect() throws SQLException {
         // Load the JDBC driver
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
         }catch (ClassNotFoundException e){
             e.printStackTrace();
         }
-        //Class.forName("org.mariadb.jdbc.Driver");
+
+
         System.out.println("Driver loaded");
 
-        // Try to connect
 
         //Connection connection = DriverManager.getConnection
         //        ("jdbc:mysql://localhost/databpros", "root", "Lamarchequidurelong41");
