@@ -1,4 +1,4 @@
-package tdt4145;
+package tdt4145.core;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
