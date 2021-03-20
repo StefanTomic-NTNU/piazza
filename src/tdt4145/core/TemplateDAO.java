@@ -1,3 +1,5 @@
+package tdt4145.core;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
