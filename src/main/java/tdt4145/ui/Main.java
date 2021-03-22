@@ -57,19 +57,6 @@ public class Main {
             System.out.println(userChoice);
         }
 
-            /** Main menu selection*/
-
-//            while (true) {
-//                switch (MainMenu.menu()) {
-//                    //case 1 -> listPosts();
-//                    //case 2 -> createNewPost();
-//                    case 5 -> exit();
-//                }
-//                int userChoice = MainMenu.menu();
-//                System.out.println(userChoice);
-//            }
-
-
             /*********************************************************/
     }
 
