@@ -18,27 +18,21 @@ public class Main {
     public static void main(String[] args){
         System.out.println("Welcome to Piazza cli");
         Database.setNewDatabase(null, null);
-        try(UserDAO userDAO = new UserDAO()){
-            char password[] = {'p', 'a', 's', 's', 'w', 'o', 'r', 'd'};
-            userDAO.addUser("p@mail.com", "Patrick Helvik", password);
-        }catch (SQLException sq){
-            sq.printStackTrace();
-        }
 
 
         /** Login and user creation */
         Boolean loginStatus = false;
-        /*
+
         while (!loginStatus){
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
-        */
+
 
         /** Main menu selection*/
-        /*
+
         while (true){
             switch (MainMenu.menu()){
                 //case 1 -> listPosts();
@@ -48,7 +42,7 @@ public class Main {
             int userChoice = MainMenu.menu();
             System.out.println(userChoice);
         }
-        */
+
 
         /*********************************************************/
 
