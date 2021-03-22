@@ -1,0 +1,33 @@
+package tdt4145.core;
+
+public class User {
+
+    private int userID;
+    private String name;
+    private String email;
+    private boolean instructor_priviligies;
+
+    public User(int userID, String name, String email, boolean instructor_priviligies){
+        this.userID = userID;
+        this.name = name;
+        this.email = email;
+        this.instructor_priviligies = instructor_priviligies;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public boolean getInstructorPriviligies(){
+        return instructor_priviligies;
+    }
+
+}
