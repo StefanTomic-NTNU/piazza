@@ -40,7 +40,7 @@ public class MainMenu {
         int counter = 0;
 
         for (Object post : posts){
-            System.out.println(counter + " - " + post);
+            System.out.println(counter + " - " + post); //TODO: check format
             counter ++;
         }
     }
@@ -51,7 +51,6 @@ public class MainMenu {
             System.out.println("Entry successfully added.");
         }catch (Exception e){
             System.out.println("And error occured : " + e.getMessage());
-
         }
     }
 }

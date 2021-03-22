@@ -36,7 +36,7 @@ public class Main {
             List<Object> posts = MainMenu.getPosts();
             switch (MainMenu.menu()){
                 case 1 -> MainMenu.printPosts(posts);
-                case 2 -> MainMenu.openPostPrompt(posts);
+                case 2 -> PostMenu.openPostPrompt(posts); //opens a new menu
                 case 3 -> MainMenu.createPost();
                 case 5 -> exit();
             }
