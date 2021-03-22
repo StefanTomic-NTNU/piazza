@@ -57,15 +57,15 @@ public class Main {
 
             /** Main menu selection*/
 
-            while (true) {
-                switch (MainMenu.menu()) {
-                    //case 1 -> listPosts();
-                    //case 2 -> createNewPost();
-                    case 5 -> exit();
-                }
-                int userChoice = MainMenu.menu();
-                System.out.println(userChoice);
-            }
+//            while (true) {
+//                switch (MainMenu.menu()) {
+//                    //case 1 -> listPosts();
+//                    //case 2 -> createNewPost();
+//                    case 5 -> exit();
+//                }
+//                int userChoice = MainMenu.menu();
+//                System.out.println(userChoice);
+//            }
 
 
             /*********************************************************/

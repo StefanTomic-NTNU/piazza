@@ -2,6 +2,9 @@
 package tdt4145.core;
 import java.io.*;
 import com.mchange.v2.c3p0.*;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -17,7 +20,7 @@ public class Database {
     private static Database database;
     private static ComboPooledDataSource comboPooledDataSource;
 
-    private static String DATABASE_URL =  "jdbc:mysql://localhost/databpros";
+    private static String DATABASE_URL =  "jdbc:mysql://localhost/piazzaproject";
     private static String DATABASE_USERNAME = null;
     private static String DATABASE_PASSWORD =  null;
     private static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -31,8 +34,9 @@ public class Database {
         if (DATABASE_USERNAME == null || DATABASE_PASSWORD == null) {
 
             try{
-                File file = new File("C:\\Users\\pathe\\IdeaProjects\\TDT4145-project\\src\\tdt4145\\core\\setup.txt");
-                FileReader filer= new FileReader(file);
+                File file = new File("src/main/resources/tdt4145/core/setup.txt");
+                System.out.println(file.getAbsolutePath());
+                FileReader filer = new FileReader(file);
                 BufferedReader br = new BufferedReader(filer);
                 String[] sb = new String[3];
                 String line;
@@ -82,12 +86,8 @@ public class Database {
      */
 
     public static Database getInstance(){
-        if(database == null){
-            database = new Database();
-            return database;
-        }else{
-            return database;
-        }
+        if (database == null) database = new Database();
+        return database;
     }
 
     /**
