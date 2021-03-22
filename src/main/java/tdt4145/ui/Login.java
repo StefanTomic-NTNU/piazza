@@ -8,16 +8,16 @@ import java.util.Scanner;
 public class Login {
 
     public static boolean prompt() {
-        String username;
+        String email;
         String password;
-        Scanner usernameInput = new Scanner(System.in);
+        Scanner emailInput = new Scanner(System.in);
         Scanner passwordInput = new Scanner(System.in);
 
 
         /***************************************************/
 
         System.out.print("Enter email: ");
-        username = usernameInput.nextLine();
+        email = emailInput.nextLine();
 
         System.out.print("Enter password: ");
         password = passwordInput.nextLine();
@@ -25,22 +25,18 @@ public class Login {
 
         try {
             UserDAO dao = new UserDAO();
-            return dao.isPasswordCorrect(username, password.toCharArray());
+            if (dao.isPasswordCorrect(email, password.toCharArray())) {
+                System.out.println("Welcome " + email);
+                return true;
+            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return false;
         }
 
-        //TODO: check login
-        // input variables:
-        // username
-        // password
-        // if login is correct, return true to continue to mainMenu.
-        // return false to retry.
+        System.out.println("Email or password is incorrect");
 
-        // System.out.println("Welcome " + username);
-        // System.out.println("Username or password is incorrect ");
-
+        return false;
     }
 
 }
