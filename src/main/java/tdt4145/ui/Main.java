@@ -35,12 +35,14 @@ public class Main {
         Boolean loginStatus = false;
 
         while (!loginStatus) {
+            System.out.println("While..");
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
 
+        }
 
         /** Main menu selection */
         while (true){
@@ -69,9 +71,6 @@ public class Main {
 
 
             /*********************************************************/
-
-
-        }
     }
 
 }

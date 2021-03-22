@@ -1,5 +1,8 @@
 package tdt4145.ui;
 
+import tdt4145.core.UserDAO;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Login {
@@ -13,12 +16,20 @@ public class Login {
 
         /***************************************************/
 
-        System.out.print("Enter username: ");
+        System.out.print("Enter email: ");
         username = usernameInput.nextLine();
 
         System.out.print("Enter password: ");
         password = passwordInput.nextLine();
         System.out.println("");
+
+        try {
+            UserDAO dao = new UserDAO();
+            return dao.isPasswordCorrect(username, password.toCharArray());
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return false;
+        }
 
         //TODO: check login
         // input variables:
@@ -30,7 +41,6 @@ public class Login {
         // System.out.println("Welcome " + username);
         // System.out.println("Username or password is incorrect ");
 
-        return false;
     }
 
 }
