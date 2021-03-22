@@ -15,7 +15,7 @@ public class Main {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Welcome to Piazza cli");
         Database.setNewDatabase(null, null);
 
@@ -23,7 +23,7 @@ public class Main {
         /** Login and user creation */
         Boolean loginStatus = false;
 
-        while (!loginStatus){
+        while (!loginStatus) {
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
                 case 2 -> CreateUser.create();
@@ -31,23 +31,23 @@ public class Main {
             }
 
 
-        /** Main menu selection*/
+            /** Main menu selection*/
 
-        while (true){
-            switch (MainMenu.menu()){
-                //case 1 -> listPosts();
-                //case 2 -> createNewPost();
-                case 5 -> exit();
+            while (true) {
+                switch (MainMenu.menu()) {
+                    //case 1 -> listPosts();
+                    //case 2 -> createNewPost();
+                    case 5 -> exit();
+                }
+                int userChoice = MainMenu.menu();
+                System.out.println(userChoice);
             }
-            int userChoice = MainMenu.menu();
-            System.out.println(userChoice);
+
+
+            /*********************************************************/
+
+
         }
-
-
-        /*********************************************************/
-
-
-
     }
 
 }
