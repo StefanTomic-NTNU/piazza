@@ -13,8 +13,10 @@ public class ThreadDAO extends TemplateDAO {
         this.connection = super.getConnection();
     }
     //check if allow anonymous in CourseDAO
-    public boolean CreateThread(String text, String Coursename, int userID, boolean anonymous) {
+    public int CreateThread(String text, String Coursename, int userID, boolean anonymous) {
         String sqlstatement = "INSERT into Thread(text, anonymous, userID) VALUES(?,?,?)";
+        String sqlstatement2 = "SELECT LAST_INSERT_ID();";
+        ResultSet resultSet = null;
         try{
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
@@ -22,10 +24,13 @@ public class ThreadDAO extends TemplateDAO {
             preparedStatement.setBoolean(2, anonymous);
             preparedStatement.setInt(3, userID);
             preparedStatement.executeUpdate();
-            return true;
+            preparedStatement = connection.prepareStatement(sqlstatement2);
+            resultSet = preparedStatement.executeQuery();
+            int result = resultSet.getInt("threadID");
+            return result;
         }catch (SQLException sq){
             sq.printStackTrace();
-            return false;
+            return -1;
         }finally {
             Cleanup.enableAutoCommit(connection);
         }
@@ -50,7 +55,7 @@ public class ThreadDAO extends TemplateDAO {
     }
 
     public boolean CreatePost(String title, int colour, int folderID, String Coursename, int userID, int threadID){
-        String sqlstatement = "INSERT into Post(threadID, title, colour, folderID) VALUES(?,?,?,?)";
+        String sqlstatement = "INSERT INTO Post(threadID, title, colour, folderID) VALUES(?,?,?,?)";
         try{
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
@@ -58,6 +63,55 @@ public class ThreadDAO extends TemplateDAO {
             preparedStatement.setString(2, title);
             preparedStatement.setInt(3, colour);
             preparedStatement.setInt(4, folderID);
+            preparedStatement.executeUpdate();
+            return true;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return false;
+        }finally {
+            Cleanup.enableAutoCommit(connection);
+        }
+    }
+
+    public boolean CreateComment(int threadID, int parentID){
+        String sqlstatement = "INSERT INTO Comment VALUES(?, ?)";
+        try{
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, threadID);
+            preparedStatement.setInt(2, parentID);
+            preparedStatement.executeUpdate();
+            return true;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return false;
+        }finally {
+            Cleanup.enableAutoCommit(connection);
+        }
+    }
+
+    public int getTopThread(int threadID){
+        String sqlstatement = "SELECT parentID FROM Comment where threadID = ?";
+        ResultSet resultSet = null;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, threadID);
+            resultSet = preparedStatement.executeQuery();
+            int result = resultSet.getInt("parentID");
+            return result;
+        }catch (SQLException sq) {
+            sq.printStackTrace();
+            return -1;
+        }
+    }
+
+    public boolean linkPostTags(int threadID, int tagID){
+        String sqlstatement = "INSERT INTO PostTags(threadID, tagID) VALUES(?, ?)";
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, threadID);
+            preparedStatement.setInt(2, tagID);
             preparedStatement.executeUpdate();
             return true;
         }catch (SQLException sq){

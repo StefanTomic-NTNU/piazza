@@ -72,20 +72,29 @@ public class UserDAO extends TemplateDAO{
         }
     }
 
-    public boolean addUser(String email, String name, char[] password) throws  SQLException{ //be carefull password has to be char[]
+    public int addUser(String email, String name, char[] password) throws  SQLException{ //be carefull password has to be char[]
         String sqlSentence = "INSERT INTO User (name, email, password, salt) VALUES(?,?,?,?);";
-
+        String sqlstatement2 = "SELECT LAST_INSERT_ID();";
+        ResultSet resultSet = null;
         byte[] salt = Password.getSalt();
         byte[] hashedPassword = Password.hash(password, salt);
-
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)){
+        try{
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setBytes(3, hashedPassword);
             preparedStatement.setBytes(4, salt);
-            int result = preparedStatement.executeUpdate();
-            Arrays.fill(password, 'a');
-            return result == 1;
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement(sqlstatement2);
+            resultSet = preparedStatement.executeQuery();
+            int result = resultSet.getInt("userID"); //returns int no longer boolean
+            return result;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return -1;
+        }finally {
+            Cleanup.enableAutoCommit((connection));
         }
     }
 
@@ -140,5 +149,61 @@ public class UserDAO extends TemplateDAO{
         }
         Arrays.fill(password, 'a');
         return false;
+    }
+
+    public boolean viewedPost(int userID, int threadID){
+        String sqlstatement = "SELECT times_viewed From ViewedPosts WHERE userID = ? and threadID = ?";
+        String sqlstatement2 = "UPDATE ViewedPosts SET times_viewed = ? WHERE userID = ? and threadID = ?";
+        String sqlstatement3 = "INSERT INTO ViewedPosts(userID, threadID) VALUES(?,?)";
+        ResultSet resultSet = null;
+        int times_viewed = -1;
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, threadID);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                times_viewed = resultSet.getInt("times_viewed");
+            }
+
+            if(times_viewed > -1){
+                preparedStatement = connection.prepareStatement(sqlstatement2);
+                preparedStatement.setInt(1, times_viewed);
+                preparedStatement.setInt(2, userID);
+                preparedStatement.setInt(3, threadID);
+                preparedStatement.executeUpdate();
+            }else{
+                preparedStatement = connection.prepareStatement(sqlstatement3);
+                preparedStatement.setInt(1, userID);
+                preparedStatement.setInt(2, threadID);
+                preparedStatement.executeUpdate();
+            }
+            return true;
+
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return false;
+        }finally {
+            Cleanup.enableAutoCommit(connection);
+        }
+    }
+
+    public boolean likethread(int userID, int threadID){
+        String sqlstatement = "INSERT INTO likes(userID, threadID) VALUES(?,?)";
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, threadID);
+            preparedStatement.executeUpdate();
+            return true;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return false;
+        }finally {
+            Cleanup.enableAutoCommit(connection);
+        }
     }
 }
