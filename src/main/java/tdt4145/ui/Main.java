@@ -35,7 +35,6 @@ public class Main {
         Boolean loginStatus = false;
 
         while (!loginStatus) {
-            System.out.println("While..");
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
                 case 2 -> CreateUser.create();
@@ -45,9 +44,9 @@ public class Main {
         }
 
         /** Main menu selection */
-        while (true){
+        while (true) {
             List<Object> posts = MainMenu.getPosts();
-            switch (MainMenu.menu()){
+            switch (MainMenu.menu()) {
                 case 1 -> MainMenu.printPosts(posts);
                 case 2 -> PostMenu.openPostPrompt(posts); //opens a new menu
                 case 3 -> MainMenu.createPost();
@@ -56,7 +55,6 @@ public class Main {
             int userChoice = MainMenu.menu();
             System.out.println(userChoice);
         }
-
             /*********************************************************/
     }
 
