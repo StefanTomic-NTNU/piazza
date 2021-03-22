@@ -26,7 +26,7 @@ public abstract class DBConn {
         //        ("jdbc:mysql://localhost/databpros", "root", "Lamarchequidurelong41");
 
         connection = DriverManager.getConnection
-                ("jdbc:mysql://localhost/piazzaProject", "admin", "mypass");
+                ("jdbc:mysql://localhost/piazzaproject", "admin", "mypass");
 
 
         System.out.println("Successfully connected to database");

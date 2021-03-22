@@ -41,6 +41,7 @@ public class Main {
                 case 5 -> exit();
             }
 
+        }
 
         /** Main menu selection */
         while (true) {
@@ -54,9 +55,7 @@ public class Main {
             int userChoice = MainMenu.menu();
             System.out.println(userChoice);
         }
-
-
-        }
+            /*********************************************************/
     }
 
 }
