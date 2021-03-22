@@ -1,11 +1,9 @@
-package tdt4145.core;
 
+package tdt4145.core;
+import java.io.*;
+import com.mchange.v2.c3p0.*;
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
-
 
 
 /**
@@ -21,7 +19,7 @@ public class Database {
 
     private static String DATABASE_URL =  "jdbc:mysql://localhost/databpros";
     private static String DATABASE_USERNAME = null;
-    private static String DATABASE_PASSWORD = null;
+    private static String DATABASE_PASSWORD =  null;
     private static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
 
     /**
@@ -31,33 +29,33 @@ public class Database {
 
         // if not given pw & username, read from .properties file
         if (DATABASE_USERNAME == null || DATABASE_PASSWORD == null) {
-            /*
-            StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm("PBEWithMD5AndTripleDES");
-            encryptor.setKeyObtentionIterations(1000);
-            encryptor.setPassword("HelloThere82_whatever--heh");
 
-            //Properties props = new EncryptableProperties(encryptor);
-            try (FileInputStream fis = new FileInputStream("database.properties")){
-                props.load(fis);
+            try{
+                File file = new File("C:\\Users\\pathe\\IdeaProjects\\TDT4145-project\\src\\tdt4145\\core\\setup.txt");
+                FileReader filer= new FileReader(file);
+                BufferedReader br = new BufferedReader(filer);
+                String[] sb = new String[3];
+                String line;
+                int i = 0;
+                while((line=br.readLine())!=null){
+                    sb[i] = line;
+                    i = i + 1;
+                }
+                filer.close();
+                DATABASE_USERNAME = sb[0];
+                DATABASE_PASSWORD = sb[1];
+
             } catch (IOException e) {
                 e.printStackTrace();
                 System.err.println("FAILED TO READ DATABASE PROPERTIES, EXITING...");
                 System.exit(-1);
             }
-
-            DATABASE_URL = props.getProperty("db.url");
-            DATABASE_USERNAME = props.getProperty("db.username");
-            DATABASE_PASSWORD = props.getProperty("db.password");
-            DATABASE_DRIVER = props.getProperty("db.driver");
-             */
-            //added with cryptocraphy in mind if you want you can change it
         }
 
         try {
             comboPooledDataSource = new ComboPooledDataSource();
             comboPooledDataSource.setDriverClass(DATABASE_DRIVER); //loads the jdbc driver
-            comboPooledDataSource.setJdbcUrl(DATABASE_URL + DATABASE_USERNAME);
+            comboPooledDataSource.setJdbcUrl(DATABASE_URL);
             comboPooledDataSource.setUser(DATABASE_USERNAME);
             comboPooledDataSource.setPassword(DATABASE_PASSWORD);
 

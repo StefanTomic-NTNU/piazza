@@ -1,6 +1,13 @@
 package tdt4145.ui;
 
+
+import tdt4145.core.Database;
+import tdt4145.core.UserDAO;
+
+import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.List;
+
 
 public class Main {
 
@@ -12,6 +19,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+
+        Database.setNewDatabase(null, null);
+
         System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
         System.out.println(" |_   _||  _ \\ |_   _|| || |  / || || |  | ___|        |  _ \\(_) __ _ __________ _ ");
         System.out.println("   | |  | | | |  | |  | || |_ | || || |_ |___ \\   ___  | |_) | |/ _` |_  /_  / _` |");
@@ -19,16 +30,16 @@ public class Main {
         System.out.println("   |_|  |____/   |_|     |_|  |_|   |_|  |____/        |_|   |_|\\__,_/___/___\\__,_|");
 
 
+
         /** Login and user creation */
         Boolean loginStatus = false;
-        while (!loginStatus){
+
+        while (!loginStatus) {
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
-        }
-
 
 
         /** Main menu selection */
@@ -44,11 +55,23 @@ public class Main {
             System.out.println(userChoice);
         }
 
+            /** Main menu selection*/
 
-        /*********************************************************/
+            while (true) {
+                switch (MainMenu.menu()) {
+                    //case 1 -> listPosts();
+                    //case 2 -> createNewPost();
+                    case 5 -> exit();
+                }
+                int userChoice = MainMenu.menu();
+                System.out.println(userChoice);
+            }
 
 
+            /*********************************************************/
 
+
+        }
     }
 
 }

@@ -29,8 +29,8 @@ public class UserDAO extends TemplateDAO{
 
     public boolean logIn(String email) throws SQLException{
         //add in check to see if user is already logged in
-        String sqlSentence1 = "SELECT logged_in FROM users WHERE email = ?"; //change pls
-        String sqlSentence2 = "UPDATE users SET logged_in = '1' WHERE email = ?";
+        String sqlSentence1 = "SELECT logged_in FROM User WHERE email = ?";
+        String sqlSentence2 = "UPDATE User SET logged_in = '1' WHERE email = ?";
         boolean resultBoolean = false;
         ResultSet resultSet;
         int result = 0;
@@ -63,7 +63,7 @@ public class UserDAO extends TemplateDAO{
      * @return true if log out is successful, false if not
      */
     public boolean logOut(String email) throws SQLException {
-        String sqlSentence = "UPDATE users SET logged_in = '0' WHERE email = ?"; //change
+        String sqlSentence = "UPDATE User SET logged_in = '0' WHERE email = ?"; //change
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)){
             preparedStatement.setString(1, email);
@@ -72,17 +72,17 @@ public class UserDAO extends TemplateDAO{
         }
     }
 
-    public boolean addUser(String email, String nickname, char[] password) throws  SQLException{
-        String sqlSentence = "INSERT INTO users (email, password, salt, nickname) VALUES(?,?,?,?);"; //change
+    public boolean addUser(String email, String name, char[] password) throws  SQLException{ //be carefull password has to be char[]
+        String sqlSentence = "INSERT INTO User (name, email, password, salt) VALUES(?,?,?,?);";
 
         byte[] salt = Password.getSalt();
         byte[] hashedPassword = Password.hash(password, salt);
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)){
-            preparedStatement.setString(1, email);
-            preparedStatement.setBytes(2, hashedPassword);
-            preparedStatement.setBytes(3, salt);
-            preparedStatement.setString(4, nickname);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, email);
+            preparedStatement.setBytes(3, hashedPassword);
+            preparedStatement.setBytes(4, salt);
             int result = preparedStatement.executeUpdate();
             Arrays.fill(password, 'a');
             return result == 1;
@@ -99,7 +99,7 @@ public class UserDAO extends TemplateDAO{
      */
     public boolean setPassword(int user_id, char[] password) throws SQLException{
         byte[] salt = Password.getSalt();
-        String sqlSentence2 = "UPDATE users SET password = ? , salt = ? WHERE user_id = ?"; //change
+        String sqlSentence2 = "UPDATE User SET password = ? , salt = ? WHERE userID = ?"; //change
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence2)){
             preparedStatement.setBytes(1, Password.hash(password, salt));
             preparedStatement.setBytes(2, salt);
@@ -122,8 +122,9 @@ public class UserDAO extends TemplateDAO{
         byte[] salt;
         byte[] hashed;
         ResultSet resultSet = null;
-        String sqlSentence = "SELECT salt, password FROM users WHERE email = ?"; //change
+        String sqlSentence = "SELECT salt, password FROM User WHERE email = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)){
+            connection.setAutoCommit(false);
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
