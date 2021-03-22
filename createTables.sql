@@ -1,9 +1,12 @@
+--add not null in table
 CREATE TABLE `User` (
   `userID` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(64),
   `email` varchar(64),
-  `password` varchar(64),
-  `instructor_privileges` bit
+  `password` BINARY(64),
+  `salt` binary(16),
+  `logged_in` bit DEFAULT 0,
+  `instructor_privileges` bit DEFAULT 0
 );
 
 CREATE TABLE `Course` (
