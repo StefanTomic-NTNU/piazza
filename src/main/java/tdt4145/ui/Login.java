@@ -21,9 +21,16 @@ public class Login {
         System.out.println("");
 
         //TODO: check login
-        System.out.println("Welcome " + username);
+        // input variables:
+        // username
+        // password
+        // if login is correct, return true to continue to mainMenu.
+        // return false to retry.
 
-        return true;
+        // System.out.println("Welcome " + username);
+        // System.out.println("Username or password is incorrect ");
+
+        return false;
     }
 
 }

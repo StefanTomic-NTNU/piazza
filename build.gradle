@@ -1,9 +1,7 @@
-plugins {
-    id 'java'
-}
-
 group 'gr148'
 version '1.0-SNAPSHOT'
+
+apply plugin: 'application' // implicitly includes the java plugin
 
 repositories {
     mavenCentral()
@@ -23,8 +21,16 @@ dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
 
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
+
+    // https://mvnrepository.com/artifact/com.mchange/mchange-commons-java
+    implementation group: 'com.mchange', name: 'mchange-commons-java', version: '0.2.11'
+
 }
 
 test {
     useJUnitPlatform()
 }
+
+
+
+mainClassName = 'src/main/java/tdt4145/ui/Main.java'
