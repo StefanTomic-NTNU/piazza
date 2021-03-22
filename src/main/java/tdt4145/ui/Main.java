@@ -43,9 +43,9 @@ public class Main {
 
 
         /** Main menu selection */
-        while (true){
+        while (true) {
             List<Object> posts = MainMenu.getPosts();
-            switch (MainMenu.menu()){
+            switch (MainMenu.menu()) {
                 case 1 -> MainMenu.printPosts(posts);
                 case 2 -> PostMenu.openPostPrompt(posts); //opens a new menu
                 case 3 -> MainMenu.createPost();
@@ -54,21 +54,6 @@ public class Main {
             int userChoice = MainMenu.menu();
             System.out.println(userChoice);
         }
-
-            /** Main menu selection*/
-
-            while (true) {
-                switch (MainMenu.menu()) {
-                    //case 1 -> listPosts();
-                    //case 2 -> createNewPost();
-                    case 5 -> exit();
-                }
-                int userChoice = MainMenu.menu();
-                System.out.println(userChoice);
-            }
-
-
-            /*********************************************************/
 
 
         }
