@@ -1,6 +1,6 @@
 package tdt4145.ui;
 
-import java.util.Scanner;
+import java.util.List;
 
 public class Main {
 
@@ -12,7 +12,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Piazza cli");
+        System.out.println("  _____ ____ _____ _  _   _ _  _  ____        ____  _                    ");
+        System.out.println(" |_   _|  _ \\_   _| || | / | || || ___|      |  _ \\(_) __ _ __________ _ ");
+        System.out.println("   | | | | | || | | || |_| | || ||___ \\ _____| |_) | |/ _` |_  /_  / _` |");
+        System.out.println("   | | | |_| || | |__   _| |__   _|__) |_____|  __/| | (_| |/ / / / (_| |");
+        System.out.println("   |_| |____/ |_|    |_| |_|  |_||____/      |_|   |_|\\__,_/___/___\\__,_|");
 
 
         /** Login and user creation */
@@ -25,11 +29,15 @@ public class Main {
             }
         }
 
-        /** Main menu selection*/
+
+
+        /** Main menu selection */
         while (true){
+            List<Object> posts = MainMenu.getPosts();
             switch (MainMenu.menu()){
-                //case 1 -> listPosts();
-                //case 2 -> createNewPost();
+                case 1 -> MainMenu.printPosts(posts);
+                case 2 -> MainMenu.openPostPrompt(posts);
+                case 3 -> MainMenu.createPost();
                 case 5 -> exit();
             }
             int userChoice = MainMenu.menu();

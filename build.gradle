@@ -1,9 +1,7 @@
-plugins {
-    id 'java'
-}
-
 group 'gr148'
 version '1.0-SNAPSHOT'
+
+apply plugin: 'application' // implicitly includes the java plugin
 
 repositories {
     mavenCentral()
@@ -22,3 +20,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+
+
+mainClassName = 'src/main/java/tdt4145/ui/Main.java'
