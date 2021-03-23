@@ -31,6 +31,7 @@ public class Login {
         try {
             UserDAO dao = new UserDAO();
             if (dao.isPasswordCorrect(email, password.toCharArray())) {
+                dao.logIn(email);
                 System.out.println("Welcome " + email);
                 return true;
             }

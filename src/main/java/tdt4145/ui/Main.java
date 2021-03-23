@@ -23,6 +23,7 @@ public class Main {
     public static void main(String[] args) {
 
         Database.setNewDatabase(null, null);
+        // MainMenu.initCourse();
 
         System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
         System.out.println(" |_   _||  _ \\ |_   _|| || |  / || || |  | ___|        |  _ \\(_) __ _ __________ _ ");
