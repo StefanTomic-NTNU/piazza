@@ -158,12 +158,14 @@ public class ThreadDAO extends TemplateDAO {
     //check sql
     public ArrayList<Integer> searchpost(String keyword){
         String sqlstatement = "SELECT Post.threadID FROM Post, Thread WHERE " +
-                "Thread.threadID = Post.threadID AND Thread.text LIKE %WAL AND Post.title LIKE %WAL";
+                "Thread.threadID = Post.threadID AND Thread.text LIKE %?% AND Post.title LIKE %?%";
         ResultSet resultSet;
         int id = 0;
         ArrayList<Integer> ids = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, keyword);
+            preparedStatement.setString(2, keyword);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 id = resultSet.getInt("threadID");
