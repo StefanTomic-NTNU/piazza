@@ -1,32 +1,35 @@
 package tdt4145.ui;
 
-import java.util.List;
+import java.util.Scanner;
 
 
 /**
  * Provides menu and information about posts and
  * handles inputs and outputs related to specific posts.
  */
-public class PostMenu {
-
-    /**
-     * Prompts the user to select a specific post to view.
-     *
-     * @param posts to be selected from.
-     */
-    public static void openPostPrompt(List<Object> posts) {
-        int selection;
-        //TODO: Integer input to select specific post
-    }
+public class PostMenu implements Menu {
 
     /**
      * Provides a menu selection for the post selected in {openPostPrompt}.
      */
-    public static void menu() {
-        //TODO: create menu in while loop
-        // 1. view info, comments, replies and likes
-        // 2. like post
-        // 3. go back
+    public int menu() {
+
+        int selection;
+        Scanner input = new Scanner(System.in);
+
+        System.out.println();
+        System.out.println("Select option");
+        System.out.println("-------------------------");
+        System.out.println("1 - View info");
+        System.out.println("2 - Like post");
+        System.out.println("3 - Go back");
+        System.out.println("5 - Quit");
+        System.out.print("Enter number: ");
+
+        selection = input.nextInt();
+        System.out.println();
+
+        return selection;
     }
 
     /**
@@ -35,7 +38,8 @@ public class PostMenu {
      * @param selection the post to be selected.
      * @param posts     to be selected from.
      */
-    public static void getPostInfo(List<Object> posts, int selection) {
+    public void getInfo(int selection) {
+        System.out.println("Printing of a Post's info is not yet implemented");
         //TODO: get post title, comments, and nr. of likes
     }
 
@@ -43,7 +47,8 @@ public class PostMenu {
     /**
      * Adds a like to the database from the user to a given post
      */
-    public static void likePost(List<Object> posts, int selection) {
+    public void likePost(int selection) {
+        System.out.println("Liking a post is not yet implemented");
         //TODO: add functionality for liking posts.
     }
 }
