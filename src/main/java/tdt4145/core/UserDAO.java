@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -73,6 +74,7 @@ public class UserDAO extends TemplateDAO{
     }
 
     public int addUser(String email, String name, char[] password) throws SQLException { //be carefull password has to be char[]
+        String sqlstatement = "SELECT name FROM User WHERE email = ?";
         String sqlSentence = "INSERT INTO User (name, email, password, salt) VALUES(?,?,?,?);";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
         ResultSet resultSet;
@@ -80,7 +82,12 @@ public class UserDAO extends TemplateDAO{
         byte[] hashedPassword = Password.hash(password, salt);
         try {
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence);
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            if(!(resultSet.next())){
+                return -2;
+            }
+            preparedStatement = connection.prepareStatement(sqlSentence);
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, email);
             preparedStatement.setBytes(3, hashedPassword);
@@ -225,15 +232,34 @@ public class UserDAO extends TemplateDAO{
         }
     }
 
-    public int nbcreatedPosts(){
-        String sqlstatement = "SELECT User.name, COUNT(ViewedPosts.userID), COUNT(Post.threadID) FROM User, Post, ViewedPost, Thread WHERE " +
+    //TODO finish it
+    public ArrayList<UserOverview> overviewStatistics(){
+        String sqlstatement = "SELECT User.name, COUNT(ViewedPosts.userID) AS nbposts, COUNT(Post.threadID) AS nbreadpost FROM User, Post, ViewedPost, Thread WHERE " +
                 "User.userID = ViewedPosts.userID AND User.userID = Thread.userID AND Thread.threadID = Post.threadID AND" +
                 "ViewedPosts.threadID = Thread.threadID";
         ResultSet resultSet = null;
+        ArrayList<UserOverview> userOverviews = new ArrayList<>();
+        String name = "";
+        int nbposts = 0;
+        int nbreadpost = 0;
         try {
-
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                name = resultSet.getString("name");
+                nbposts = resultSet.getInt("nbposts");
+                nbreadpost = resultSet.getInt("nbreadpost");
+                UserOverview userOverview = new UserOverview(name, nbposts, nbreadpost);
+                userOverviews.add(userOverview);
+            }
+            return userOverviews;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return userOverviews;
         }
     }
+
+
 
 
 
