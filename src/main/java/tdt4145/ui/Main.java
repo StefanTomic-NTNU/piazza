@@ -28,7 +28,7 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase("admin", "testpass");
+        Database.setNewDatabase("admin", "mypass");
         // MainMenu.initCourse();
 
         {
@@ -50,21 +50,18 @@ public class Main {
         }
 
 
-
-
-       /* // Login and user creation
-        boolean loginStatus = false;
-        while (!loginStatus) {
+        // Login and user creation
+        int loggedInUserID = -1;
+        while (loggedInUserID < 0) {
             switch (welcomeMenu.menu()) {
-                case 1 -> loginStatus = Login.prompt();
+                case 1 -> loggedInUserID = Login.prompt();
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
-        }*/
+        }
 
         // main program loop
-        while (true) {
-
+        while (loggedInUserID >= 0) {
 
             // Main menu selection
             List<Object> posts = mainMenu.getPosts();

@@ -1,5 +1,6 @@
 package tdt4145.ui;
 
+import tdt4145.core.User;
 import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class Login {
      *
      * @return True if login was successful, otherwise False.
      */
-    public static boolean prompt() {
+    public static int prompt() {
         String email;
         String password;
         Scanner emailInput = new Scanner(System.in);
@@ -30,19 +31,15 @@ public class Login {
 
         try {
             UserDAO dao = new UserDAO();
-            if (dao.isPasswordCorrect(email, password.toCharArray())) {
-                dao.logIn(email);
-                System.out.println("Welcome " + email);
-                return true;
+            int userID = dao.isPasswordCorrect(email, password.toCharArray());
+            if (userID >= 0) {
+                return userID;
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return false;
         }
-
         System.out.println("Email or password is incorrect");
-
-        return false;
+        return -1;
     }
 
 }

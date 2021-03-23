@@ -1,6 +1,7 @@
 package tdt4145.ui;
 
 import tdt4145.core.FolderDAO;
+import tdt4145.core.ThreadDAO;
 import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
@@ -34,17 +35,17 @@ public class CreatePost {
         while (true) {
             System.out.print("Enter folder name: ");
             folder = anonymousInput.nextLine();
+            /**
+            try {
+                FolderDAO folderDao = new FolderDAO();
+                // if (folderDao.) break;
+            } catch (SQLException sqlException) {
+                System.out.println("Folder not found..");
+                sqlException.printStackTrace();
+            } */
             break;
         }
 
-        try {
-            FolderDAO folderDao = new FolderDAO();
-            //folderDao.
-            return true;
-        } catch (SQLException sqlException) {
-            System.out.println("User creation failed..");
-            sqlException.printStackTrace();
-        }
 
         while (true) {
             System.out.print("Enter title: ");
@@ -64,7 +65,7 @@ public class CreatePost {
             text = textInput.nextLine();
             if (text.equals("post_finished")) {
                 break;
-            } else if (text.equals("undo_line")) {
+            } else if (text.equals("undo_line") && !textList.isEmpty()) {
                 textList.remove(textList.size() - 1);
             } else {
                 textList.add(text);
@@ -74,6 +75,13 @@ public class CreatePost {
 
         System.out.println(" ");
 
+        try {
+            ThreadDAO dao = new ThreadDAO();
+            // dao.CreateThread()
+        } catch (SQLException sqlException) {
+            System.out.println("User creation failed..");
+            sqlException.printStackTrace();
+        }
         return true;
     }
 
