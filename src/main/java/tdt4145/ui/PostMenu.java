@@ -1,5 +1,8 @@
 package tdt4145.ui;
 
+import tdt4145.core.ThreadDAO;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 
@@ -21,8 +24,9 @@ public class PostMenu implements Menu {
         System.out.println("Select option");
         System.out.println("-------------------------");
         System.out.println("1 - View info");
-        System.out.println("2 - Like post");
-        System.out.println("3 - Go back");
+        System.out.println("2 - Comment on post");
+        System.out.println("3 - Like post");
+        System.out.println("4 - Go back");
         System.out.println("5 - Quit");
         System.out.print("Enter number: ");
 
@@ -40,6 +44,36 @@ public class PostMenu implements Menu {
     public void getInfo(int selection) {
         System.out.println("Printing of a Post's info is not yet implemented");
         //TODO: get post title, comments, folder, and nr. of likes
+    }
+
+
+    public void comment(int selection) {
+        System.out.println("Commenting on a Post is not yet implemented");
+        //TODO: implement commenting on posts
+
+
+        String text;
+        //TODO: get info from current Post and User
+        String coursename;
+        int userID;
+        boolean anonymous;
+        Scanner textInput = new Scanner(System.in);
+
+        int threadID;
+        int postID = selection;
+
+        // Input Text
+        System.out.print("Enter comment: ");
+        text = textInput.nextLine();
+
+
+        try {
+            ThreadDAO dao = new ThreadDAO();
+            //dao.CreateThread(text, coursename, userID, anonymous);
+            //dao.CreateComment(threadID, postID);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package tdt4145.ui;
 
 import tdt4145.core.CourseDAO;
+import tdt4145.core.ThreadDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -87,10 +88,20 @@ public class MainMenu implements Menu {
      * @param posts to be searched
      * @return a list of the posts that matches the search.
      */
-    public List<Object> searchPosts(List<Object> posts) {
+    public void searchPosts(List<Object> posts) {
         System.out.println("Searching for posts is not yet implemented");
-        return null;
 
-        //TODO: implement
+        //TODO: implement searching
+
+        System.out.print("Search: ");
+        String search = new Scanner(System.in).nextLine();
+
+        try {
+            ThreadDAO dao = new ThreadDAO();
+            //dao.search(search);
+            //print result
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 }

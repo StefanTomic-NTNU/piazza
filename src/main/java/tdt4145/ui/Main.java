@@ -81,8 +81,9 @@ public class Main {
                     while (postMenuStatus) {
                         switch (postMenu.menu()) {
                             case 1 -> postMenu.getInfo(selection);
-                            case 2 -> postMenu.likePost(selection);
-                            case 3 -> postMenuStatus = false;
+                            case 2 -> postMenu.comment(selection);
+                            case 3 -> postMenu.likePost(selection);
+                            case 4 -> postMenuStatus = false;
                             case 5 -> exit();
                         }
                     }
