@@ -28,7 +28,7 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase("admin", "mypass");
+        Database.setNewDatabase(null, null);
         // MainMenu.initCourse();
 
 
