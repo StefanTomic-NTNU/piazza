@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class CreatePost {
 
-    public static boolean create() {
+    public static boolean create(int loggedInUserID) {
 
         String title = "";
         String text = "";
@@ -59,11 +59,11 @@ public class CreatePost {
 
 
         System.out.print(" -- POST CREATION --");
-        System.out.println("Lines will keep being added until you write only 'post_finished'");
+        System.out.println("Lines will keep being added until you write only 'finish_post'");
         System.out.println("You can undo previously added line by writing only 'undo_line'");
         while (true) {
             text = textInput.nextLine();
-            if (text.equals("post_finished")) {
+            if (text.equals("finish_post")) {
                 break;
             } else if (text.equals("undo_line") && !textList.isEmpty()) {
                 textList.remove(textList.size() - 1);
@@ -71,15 +71,18 @@ public class CreatePost {
                 textList.add(text);
             }
         }
-        text = String.join(", ", textList);
+        text = String.join("\n", textList);
 
         System.out.println(" ");
 
         try {
             ThreadDAO dao = new ThreadDAO();
-            // dao.CreateThread()
+            int threadID = dao.CreateThread(text, "Databaser", loggedInUserID, false);
+            System.out.println(threadID);
+            System.out.println(loggedInUserID);
+            dao.CreatePost(title, 0, 1, "Databaser", loggedInUserID, threadID);
         } catch (SQLException sqlException) {
-            System.out.println("User creation failed..");
+            System.out.println("Post creation failed..");
             sqlException.printStackTrace();
         }
         return true;

@@ -22,10 +22,9 @@ public class ThreadDAO extends TemplateDAO {
     //check if allow anonymous in CourseDAO
     public int CreateThread(String text, String coursename, int userID, boolean anonymous) {
         String sqlstatement = "INSERT into Thread(text, anonymous, userID) VALUES(?,?,?)";
-        String sqlstatement2 = "SELECT LAST_INSERT_ID();";
-        ResultSet resultSet;
+        String sqlstatement2 = "SELECT LAST_INSERT_ID()";
+        ResultSet resultSet = null;
         try {
-            connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setString(1, text);
             preparedStatement.setBoolean(2, anonymous);
@@ -33,13 +32,13 @@ public class ThreadDAO extends TemplateDAO {
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(sqlstatement2);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("threadID");
+            if(resultSet.next()) {
+                return resultSet.getInt("last_insert_id()");
+            }
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return -1;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
+        return -1;
     }
 
     public boolean check_anonymous(int threadID) {
