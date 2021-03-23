@@ -174,7 +174,6 @@ public class UserDAO extends TemplateDAO{
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, threadID);
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 times_viewed = resultSet.getInt("times_viewed");
             }
@@ -225,7 +224,10 @@ public class UserDAO extends TemplateDAO{
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getBoolean("instructor_privileges");
+            if(resultSet.next()){
+                return resultSet.getBoolean("instructor_privileges");
+            }
+            return false;
         }catch (SQLException sq){
             sq.printStackTrace();
             return false;

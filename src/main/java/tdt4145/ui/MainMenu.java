@@ -72,9 +72,9 @@ public class MainMenu implements Menu {
     /**
      * Creates a new post and adds it to the database.
      */
-    public void createPost() {
+    public void createPost(int loggedInUserID) {
         System.out.println("Functionality for creating posts not yet implemented");
-
+        CreatePost.create(loggedInUserID);
         /*try {
             //TODO: Add functionality for adding new post to db
             System.out.println("Entry successfully added.");
