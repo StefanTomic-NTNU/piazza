@@ -88,5 +88,22 @@ public class FolderDAO extends TemplateDAO {
         }
     }
 
+    public int getFolderID(String name) {
+        String sqlstatement = "SELECT folderID FROM folder WHERE name = ?";
+        ResultSet resultSet;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                return resultSet.getInt("folderID");
+            }
+            return -2;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return -1;
+        }
+    }
+
 
 }

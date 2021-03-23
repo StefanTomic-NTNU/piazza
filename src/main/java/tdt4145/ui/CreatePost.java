@@ -22,7 +22,8 @@ public class CreatePost {
         String title = "";
         String text = "";
         List<String> textList = new ArrayList<>();
-        int folder = -1;
+        String folder = "";
+        int folderID;
         Boolean allowAnonymous = false;
         Boolean anonymous = false;
         Scanner titleInput = new Scanner(System.in);
@@ -33,35 +34,25 @@ public class CreatePost {
 
         /***************************************************/
 
-        while (folder < 0) {
-
-            /*
-            try {
-                FolderDAO folderDao = new FolderDAO();
-                // if (folderDao.) break;
-            } catch (SQLException sqlException) {
-                System.out.println("Folder not found..");
-                sqlException.printStackTrace();
-            } */
-            System.out.print("Enter folder id: ");
-            try {
-                folder = Integer.parseInt(folderInput.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Input must be an int");
-            }
-            try {
-                FolderDAO folderDAO = new FolderDAO();
-                //folderDAO
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-
-            break;
-        }
-
+        System.out.println("Please specify the name of folder the post belongs to: ");
 
         while (true) {
-            System.out.print("Enter title: ");
+
+            try {
+                FolderDAO folderDao = new FolderDAO();
+                folder = folderInput.nextLine();
+                folderID = folderDao.getFolderID(folder);
+                if (folderID > 0) break;
+                System.out.println("Folder not found. Try again.");
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                System.out.println("Folder not found. Try again.");
+            }
+
+        }
+
+        while (true) {
+            System.out.print("Enter post title: ");
             title = titleInput.nextLine();
             if (title.length() < 3) {
                 System.out.println("Title too short");
@@ -71,15 +62,19 @@ public class CreatePost {
         }
 
 
-        System.out.print(" -- POST CREATION --");
-        System.out.println("Lines will keep being added until you write only 'finish_post'");
+        System.out.println(" -- POST CREATION --");
+        System.out.println("Lines will keep being added until you write only ':wq'");
         System.out.println("You can undo previously added line by writing only 'undo_line'");
+        System.out.println("To view post content write only 'print'");
         while (true) {
             text = textInput.nextLine();
-            if (text.equals("finish_post")) {
+            if (text.equals(":wq")) {
                 break;
             } else if (text.equals("undo_line") && !textList.isEmpty()) {
                 textList.remove(textList.size() - 1);
+            } else if (text.equals("print")) {
+                System.out.println(title);
+                System.out.println(String.join("\n", textList));
             } else {
                 textList.add(text);
             }
@@ -91,9 +86,7 @@ public class CreatePost {
         try {
             ThreadDAO dao = new ThreadDAO();
             int threadID = dao.CreateThread(text, loggedInUserID, false);
-            System.out.println(threadID);
-            System.out.println(loggedInUserID);
-            dao.CreatePost(title, 0, folder, threadID);
+            dao.CreatePost(title, 0, folderID, threadID);
         } catch (SQLException sqlException) {
             System.out.println("Post creation failed..");
             sqlException.printStackTrace();
