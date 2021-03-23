@@ -12,8 +12,8 @@ import java.util.Arrays;
  * @author Patrick Helvik Legendre
  */
 
-public class UserDAO extends TemplateDAO {
-    private final Connection connection;
+public class UserDAO extends TemplateDAO{
+    private Connection connection;
 
     public UserDAO() throws SQLException {
         this.connection = super.getConnection();
@@ -126,28 +126,33 @@ public class UserDAO extends TemplateDAO {
      * @return true if password is correct, false if not
      * @throws SQLException if query fails
      */
-    public boolean isPasswordCorrect(String email, char[] password) throws SQLException {
+
+    public int isPasswordCorrect(String email, char[] password) throws SQLException{
         byte[] salt;
         byte[] hashed;
         ResultSet resultSet = null;
-        String sqlSentence = "SELECT salt, password FROM User WHERE email = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)) {
+        int result;
+        String sqlSentence = "SELECT salt, password, userID FROM User WHERE email = ?";
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)){
             connection.setAutoCommit(false);
             preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
+            if(resultSet.next()){
                 salt = resultSet.getBytes("salt");
                 hashed = resultSet.getBytes("password");
-                return Password.verify(password, hashed, salt);
+                result = resultSet.getInt("userID");
+                if(Password.verify(password, hashed, salt)){
+                    return result;
+                }
+                return -1;
             }
-
-        } finally {
-            if (resultSet != null) {
+        }finally {
+            if (resultSet != null){
                 resultSet.close();
             }
         }
         Arrays.fill(password, 'a');
-        return false;
+        return  -1;
     }
 
     public boolean viewedPost(int userID, int threadID) {

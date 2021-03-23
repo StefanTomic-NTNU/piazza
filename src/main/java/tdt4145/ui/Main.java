@@ -50,21 +50,18 @@ public class Main {
         }
 
 
-
-
         // Login and user creation
-        boolean loginStatus = false;
-        while (!loginStatus) {
+        int loggedInUserID = -1;
+        while (loggedInUserID < 0) {
             switch (welcomeMenu.menu()) {
-                case 1 -> loginStatus = (Login.prompt() != null);
+                case 1 -> loggedInUserID = Login.prompt();
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
         }
 
         // main program loop
-        while (true) {
-
+        while (loggedInUserID >= 0) {
 
             // Main menu selection
             List<Object> posts = mainMenu.getPosts();

@@ -16,7 +16,7 @@ public class Login {
      *
      * @return True if login was successful, otherwise False.
      */
-    public static User prompt() {
+    public static int prompt() {
         String email;
         String password;
         Scanner emailInput = new Scanner(System.in);
@@ -31,20 +31,15 @@ public class Login {
 
         try {
             UserDAO dao = new UserDAO();
-            if (dao.isPasswordCorrect(email, password.toCharArray())) {
-                dao.logIn(email);
-                User user = dao.getUser(email);
-                System.out.println("Welcome " + user.getName());
-                return user;
+            int userID = dao.isPasswordCorrect(email, password.toCharArray());
+            if (userID >= 0) {
+                return userID;
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return null;
         }
-
         System.out.println("Email or password is incorrect");
-
-        return null;
+        return -1;
     }
 
 }
