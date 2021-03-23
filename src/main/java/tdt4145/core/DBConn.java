@@ -14,8 +14,8 @@ public abstract class DBConn {
     public void connect() throws SQLException {
         // Load the JDBC driver
         try {
-            //Class.forName("com.mysql.cj.jdbc.Driver");
-            Class.forName("org.mariadb.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("org.mariadb.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
