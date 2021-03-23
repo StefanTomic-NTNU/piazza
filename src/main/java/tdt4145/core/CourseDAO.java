@@ -3,6 +3,7 @@ package tdt4145.core;
 import java.lang.invoke.SwitchPoint;
 import java.sql.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CourseDAO extends TemplateDAO{
     private Connection connection;
@@ -44,6 +45,28 @@ public class CourseDAO extends TemplateDAO{
         }catch (SQLException sq) {
             sq.printStackTrace();
             return false;
+        }
+    }
+
+    public ArrayList<Course> getCourses(){
+        ArrayList<Course>  courses = new ArrayList<>();
+        ResultSet resultSet = null;
+        String sqlstatement = "SELECT courseID, name FROM Course";
+        int courseID = 0;
+        String name = "";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                courseID = resultSet.getInt("courseID");
+                name = resultSet.getString("name");
+                Course course = new Course(courseID, name);
+                courses.add(course);
+            }
+            return courses;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return courses;
         }
     }
 

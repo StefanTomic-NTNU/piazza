@@ -210,4 +210,30 @@ public class UserDAO extends TemplateDAO{
             Cleanup.enableAutoCommit(connection);
         }
     }
+
+    public boolean getInstructor(int userID){
+        String sqlstatement = "SELECT instructor_privileges FROM User WHERE userID = ?";
+        ResultSet resultSet = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setInt(1, userID);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet.getBoolean("instructor_privileges");
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return false;
+        }
+    }
+
+    public int nbcreatedPosts(){
+        String sqlstatement = "SELECT User.name, COUNT(ViewedPosts.userID), COUNT(Post.threadID) FROM User, Post, ViewedPost, Thread WHERE " +
+                "User.userID = ViewedPosts.userID AND User.userID = Thread.userID AND Thread.threadID = Post.threadID AND" +
+                "ViewedPosts.threadID = Thread.threadID";
+        ResultSet resultSet = null;
+        try {
+
+        }
+    }
+
+
 }
