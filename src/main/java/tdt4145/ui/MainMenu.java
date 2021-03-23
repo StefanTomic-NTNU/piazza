@@ -1,5 +1,9 @@
 package tdt4145.ui;
 
+import tdt4145.core.CourseDAO;
+import tdt4145.core.UserDAO;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,6 +27,15 @@ public class MainMenu {
         selection = input.nextInt();
         System.out.println("");
         return selection;
+    }
+
+    public static void initCourse() {
+        try {
+            CourseDAO dao = new CourseDAO();
+            dao.createActiveCourse(4145, "vaar", 2021, true);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 
 
