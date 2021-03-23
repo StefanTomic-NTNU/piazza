@@ -20,7 +20,7 @@ public class ThreadDAO extends TemplateDAO {
         this.connection = super.getConnection();
     }
     //check if allow anonymous in CourseDAO
-    public int CreateThread(String text, String coursename, int userID, boolean anonymous) {
+    public int CreateThread(String text, int userID, boolean anonymous) {
         String sqlstatement = "INSERT into Thread(text, anonymous, userID) VALUES(?,?,?)";
         String sqlstatement2 = "SELECT LAST_INSERT_ID()";
         ResultSet resultSet = null;
@@ -84,7 +84,7 @@ public class ThreadDAO extends TemplateDAO {
         }
     }
 
-    public boolean CreatePost(String title, int colour, int folderID, String Coursename, int userID, int threadID) {
+    public boolean CreatePost(String title, int colour, int folderID, int threadID) {
         String sqlstatement = "INSERT INTO Post(threadID, title, colour, folderID) VALUES(?,?,?,?)";
         try {
             connection.setAutoCommit(false);
