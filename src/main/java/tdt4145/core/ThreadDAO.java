@@ -41,29 +41,6 @@ public class ThreadDAO extends TemplateDAO {
         return -1;
     }
 
-    public ArrayList<Tag> getTags(){
-        ArrayList<Tag> tags = new ArrayList<Tag>();
-        String sqlstatement = "SELECT tagID, label FROM Tags";
-        ResultSet resultSet = null;
-        int tagid = 0;
-        String label = "";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                tagid = resultSet.getInt("tagID");
-                label = resultSet.getString("label");
-                Tag tag = new Tag(tagid, label);
-                tags.add(tag);
-            }
-            return tags;
-        }catch (SQLException sq){
-            sq.printStackTrace();
-            return tags;
-        }
-
-    }
-
     public boolean check_anonymous(int threadID) {
         String sqlstatement = "SELECT anonymous FROM Thread WHERE threadID = ?";
         ResultSet resultSet;
@@ -151,6 +128,47 @@ public class ThreadDAO extends TemplateDAO {
             return false;
         } finally {
             Cleanup.enableAutoCommit(connection);
+        }
+
+    }
+
+    public ArrayList<Tag> getTags(){
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        String sqlstatement = "SELECT tagID, label FROM Tags";
+        ResultSet resultSet = null;
+        int tagid = 0;
+        String label = "";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                tagid = resultSet.getInt("tagID");
+                label = resultSet.getString("label");
+                Tag tag = new Tag(tagid, label);
+                tags.add(tag);
+            }
+            return tags;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return tags;
+        }
+
+    }
+
+    public int getTagID(String label) {
+        String sqlstatement = "SELECT tagID FROM tags WHERE label = ?";
+        ResultSet resultSet;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, label);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                return resultSet.getInt("tagID");
+            }
+            return -2;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+            return -1;
         }
     }
 
