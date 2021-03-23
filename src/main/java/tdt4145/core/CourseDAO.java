@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CourseDAO extends TemplateDAO {
     private final Connection connection;
@@ -44,6 +45,28 @@ public class CourseDAO extends TemplateDAO {
         } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
+        }
+    }
+
+    public ArrayList<Course> getCourses(){
+        ArrayList<Course>  courses = new ArrayList<>();
+        ResultSet resultSet = null;
+        String sqlstatement = "SELECT courseID, name FROM Course";
+        int courseID = 0;
+        String name = "";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                courseID = resultSet.getInt("courseID");
+                name = resultSet.getString("name");
+                Course course = new Course(courseID, name);
+                courses.add(course);
+            }
+            return courses;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return courses;
         }
     }
 

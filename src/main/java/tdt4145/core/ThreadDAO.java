@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 public class ThreadDAO extends TemplateDAO {
     private final Connection connection;
-    //TODO create get all TAGS in one method
     //TODO create get all Courses int table Course
     //TODO maybe create a method for instructor priviligies
     //TODO create search function
@@ -18,7 +19,6 @@ public class ThreadDAO extends TemplateDAO {
     public ThreadDAO() throws SQLException {
         this.connection = super.getConnection();
     }
-
     //check if allow anonymous in CourseDAO
     public int CreateThread(String text, String coursename, int userID, boolean anonymous) {
         String sqlstatement = "INSERT into Thread(text, anonymous, userID) VALUES(?,?,?)";
@@ -39,6 +39,29 @@ public class ThreadDAO extends TemplateDAO {
             sq.printStackTrace();
         }
         return -1;
+    }
+
+    public ArrayList<Tag> getTags(){
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        String sqlstatement = "SELECT tagID, label FROM Tags";
+        ResultSet resultSet = null;
+        int tagid = 0;
+        String label = "";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                tagid = resultSet.getInt("tagID");
+                label = resultSet.getString("label");
+                Tag tag = new Tag(tagid, label);
+                tags.add(tag);
+            }
+            return tags;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return tags;
+        }
+
     }
 
     public boolean check_anonymous(int threadID) {
