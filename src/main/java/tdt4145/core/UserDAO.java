@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 
 public class UserDAO extends TemplateDAO{
-    private Connection connection;
+    private final Connection connection;
 
     public UserDAO() throws SQLException {
         this.connection = super.getConnection();
@@ -83,8 +83,9 @@ public class UserDAO extends TemplateDAO{
         try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
-            if(!(resultSet.next())){
+            if (resultSet.next()) {
                 return -2;
             }
             preparedStatement = connection.prepareStatement(sqlSentence);

@@ -28,8 +28,9 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase("admin", "mypass");
+        Database.setNewDatabase(null, null);
         // MainMenu.initCourse();
+
 
         {
             System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
@@ -50,6 +51,7 @@ public class Main {
         }
 
 
+
         // Login and user creation
         int loggedInUserID = -1;
         while (loggedInUserID < 0) {
@@ -60,6 +62,8 @@ public class Main {
             }
         }
 
+
+        // int loggedInUserID = 1;
         // main program loop
         while (loggedInUserID >= 0) {
 
@@ -88,7 +92,7 @@ public class Main {
                         }
                     }
                 }
-                case 4 -> mainMenu.createPost();
+                case 4 -> mainMenu.createPost(loggedInUserID);
                 case 5 -> exit();
             }
 

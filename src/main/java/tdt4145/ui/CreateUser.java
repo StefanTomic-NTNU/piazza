@@ -71,7 +71,7 @@ public class CreateUser {
         try {
             UserDAO dao = new UserDAO();
             dao.addUser(email, username, password.toCharArray());
-            System.out.println("User " + username + " successfully created!");
+            System.out.println("User '" + username + "' successfully created!");
             return true;
         } catch (SQLException sqlException) {
             System.out.println("User creation failed..");
