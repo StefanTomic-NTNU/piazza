@@ -5,37 +5,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class FolderDAO extends TemplateDAO{
-    private Connection connection;
+public class FolderDAO extends TemplateDAO {
+    private final Connection connection;
 
     public FolderDAO() throws SQLException {
         this.connection = super.getConnection();
     }
 
-    public int createFolder(String name){
+    public int createFolder(String name) {
         String sqlstatement = "INSERT into Folder(name) VALUES(?)";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
-        ResultSet resultSet = null;
-        try{
+        ResultSet resultSet;
+        try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(sqlstatement2);
             resultSet = preparedStatement.executeQuery();
-            int result = resultSet.getInt("folderID");
-            return result;
-        }catch (SQLException sq){
+            return resultSet.getInt("folderID");
+        } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
-        }finally {
+        } finally {
             Cleanup.enableAutoCommit(connection);
         }
     }
 
-    public boolean createRootFolder(int folderID, int courseID, String term, int year){
+    public boolean createRootFolder(int folderID, int courseID, String term, int year) {
         String sqlstatement = "INSERT into RootFolder(folderID, courseID, term, year) VALUES(?, ?, ?, ?)";
-        try{
+        try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
@@ -44,48 +43,45 @@ public class FolderDAO extends TemplateDAO{
             preparedStatement.setInt(4, year);
             preparedStatement.executeUpdate();
             return true;
-        }catch (SQLException sq){
+        } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
-        }finally {
+        } finally {
             Cleanup.enableAutoCommit(connection);
         }
     }
 
-    public boolean createSubFolder(int folderID, int parentfolder){
+    public boolean createSubFolder(int folderID, int parentfolder) {
         String sqlstatement = "INSERT into SubFolder(folderID, parent_folder) VALUES(?,?)";
-        try{
+        try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
             preparedStatement.setInt(2, parentfolder);
             preparedStatement.executeUpdate();
             return true;
-        }catch (SQLException sq){
+        } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
-        }finally {
+        } finally {
             Cleanup.enableAutoCommit(connection);
         }
     }
 
-    public int getTopFolder(int folderID){
+    public int getTopFolder(int folderID) {
         String sqlstatement = "SELECT parent_folder FROM SubFolder where folderID = ?";
-        ResultSet resultSet = null;
-        try{
+        ResultSet resultSet;
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
             resultSet = preparedStatement.executeQuery();
             int result = resultSet.getInt("parent_folder");
             return result;
-        }catch (SQLException sq) {
+        } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
         }
     }
-
-
-
 
 
 }

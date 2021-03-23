@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+
+/**
+ * Creates Posts and corresponding Thread
+ */
+
 public class CreatePost {
 
     public static boolean create() {

@@ -1,12 +1,14 @@
 package tdt4145.core;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public abstract class DBConn {
 
     protected Connection connection;
 
-    public DBConn(){
+    public DBConn() {
     }
 
     public void connect() throws SQLException {
@@ -14,7 +16,7 @@ public abstract class DBConn {
         try {
             //Class.forName("com.mysql.cj.jdbc.Driver");
             Class.forName("org.mariadb.jdbc.Driver");
-        }catch (ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
