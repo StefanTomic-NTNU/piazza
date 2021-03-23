@@ -236,9 +236,11 @@ public class UserDAO extends TemplateDAO{
 
     //TODO finish it
     public ArrayList<UserOverview> overviewStatistics(){
-        String sqlstatement = "SELECT User.name, COUNT(ViewedPosts.userID) AS nbposts, COUNT(Post.threadID) AS nbreadpost FROM User, Post, ViewedPost, Thread WHERE " +
-                "User.userID = ViewedPosts.userID AND User.userID = Thread.userID AND Thread.threadID = Post.threadID AND" +
-                "ViewedPosts.threadID = Thread.threadID";
+        String sqlstatement = "SELECT User.name, COUNT(ViewedPosts.userID) AS nbposts, COUNT(Post.threadID) AS nbreadpost" +
+                "FROM Post," +
+                "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID" +
+                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID" +
+                "GROUP BY User.name";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();
         String name = "";
