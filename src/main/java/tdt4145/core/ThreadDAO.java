@@ -20,7 +20,7 @@ public class ThreadDAO extends TemplateDAO {
     }
 
     //check if allow anonymous in CourseDAO
-    public int CreateThread(String text, String Coursename, int userID, boolean anonymous) {
+    public int CreateThread(String text, String coursename, int userID, boolean anonymous) {
         String sqlstatement = "INSERT into Thread(text, anonymous, userID) VALUES(?,?,?)";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
         ResultSet resultSet;
