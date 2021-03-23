@@ -2,14 +2,17 @@ package tdt4145.ui;
 
 import java.util.Scanner;
 
+/**
+ * Welcome prompt.
+ * User can decide to login or create account.
+ */
 public class Welcome {
 
     public static int menu() {
-        int selection = -1;
+        int selection;
         Scanner input = new Scanner(System.in);
 
-        /***************************************************/
-        System.out.println("");
+        System.out.println();
 
 
         System.out.println("Select option");
@@ -21,7 +24,7 @@ public class Welcome {
 
         System.out.print("Enter option: ");
         selection = input.nextInt();
-        System.out.println("");
+        System.out.println();
         return selection;
     }
 

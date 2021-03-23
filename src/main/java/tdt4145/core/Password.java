@@ -6,8 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
-
-
+import java.util.Objects;
 
 public class Password {
     // these constants must not be changed once we begin storing passwords in the database
@@ -18,10 +17,9 @@ public class Password {
     /**
      * Method for hashing a salted password
      *
-     * @param password  The password to be hashed, should be read directly as an array for more certain removal
-     * @param salt      The salt we'll use to hash it - please use the salting method provided here
-     *
-     * @return          byte[] with hashed password
+     * @param password The password to be hashed, should be read directly as an array for more certain removal
+     * @param salt     The salt we'll use to hash it - please use the salting method provided here
+     * @return byte[] with hashed password
      */
     public static byte[] hash(char[] password, byte[] salt) {
 
@@ -51,7 +49,7 @@ public class Password {
      * Uses SecureRandom to do so, preferring the NativePRNG in the OS
      * - changing that won't render our data unusable, mind you.
      *
-     * @return      the byte[] with the tasteless salt, NULL in case of failure
+     * @return the byte[] with the tasteless salt, NULL in case of failure
      */
     public static byte[] getSalt() {
 
@@ -77,17 +75,17 @@ public class Password {
      * Hashes the input with the original salt, then checks if it gives the same result as the original hashing.
      * This verifies that it is the correct password.
      *
-     * @param input     What the user typed, as a char[]
-     * @param actual    The byte[] stored in the database - 32 bytes
-     * @param salt      The byte[] with the salt used to hash the actual password - 16 bytes
-     * @return          Whether this is the same password or not
+     * @param input  What the user typed, as a char[]
+     * @param actual The byte[] stored in the database - 32 bytes
+     * @param salt   The byte[] with the salt used to hash the actual password - 16 bytes
+     * @return Whether this is the same password or not
      */
     public static boolean verify(char[] input, byte[] actual, byte[] salt) {
 
         byte[] hashedInput = hash(input, salt);
         Arrays.fill(input, 'C');
 
-        for (int i = 0; i < hashedInput.length; i++) {
+        for (int i = 0; i < Objects.requireNonNull(hashedInput).length; i++) {
 
             if (actual[i] != hashedInput[i]) {
                 return false; // WAS NOT THE SAME

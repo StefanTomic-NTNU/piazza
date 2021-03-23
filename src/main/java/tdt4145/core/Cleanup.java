@@ -55,21 +55,21 @@ public class Cleanup {
         }
     }
 
-    static void closeStatement(Statement statement){
-        if(statement != null){
+    static void closeStatement(Statement statement) {
+        if (statement != null) {
             try {
                 statement.close();
-            }catch (SQLException sq){
+            } catch (SQLException sq) {
                 java.util.logging.Logger.getLogger(Cleanup.class.getName()).log(Level.SEVERE, "Closing Statement failed", sq);
             }
         }
     }
 
-    static void closePreparedStatement(PreparedStatement preparedStatement){
-        if(preparedStatement != null){
-            try{
+    static void closePreparedStatement(PreparedStatement preparedStatement) {
+        if (preparedStatement != null) {
+            try {
                 preparedStatement.close();
-            }catch (SQLException sq){
+            } catch (SQLException sq) {
                 java.util.logging.Logger.getLogger(Cleanup.class.getName()).log(Level.SEVERE, "Closing PreparedStatement failed", sq);
             }
         }

@@ -1,16 +1,18 @@
 package tdt4145.ui;
 
-
 import tdt4145.core.Database;
-import tdt4145.core.UserDAO;
 
-import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.List;
 
-
+/**
+ * Main method for running the tDT4145-piazza project
+ */
 public class Main {
 
+
+    /**
+     * Exits the program
+     */
     public static void exit() {
 
         System.out.println("Goodbye");
@@ -19,7 +21,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
 
         Database.setNewDatabase(null, null);
 
@@ -30,10 +31,8 @@ public class Main {
         System.out.println("   |_|  |____/   |_|     |_|  |_|   |_|  |____/        |_|   |_|\\__,_/___/___\\__,_|");
 
 
-
-        /** Login and user creation */
-        Boolean loginStatus = false;
-
+        // Login and user creation
+        boolean loginStatus = false;
         while (!loginStatus) {
             switch (Welcome.menu()) {
                 case 1 -> loginStatus = Login.prompt();
@@ -43,7 +42,7 @@ public class Main {
 
         }
 
-        /** Main menu selection */
+        // Main menu selection
         while (true) {
             List<Object> posts = MainMenu.getPosts();
             switch (MainMenu.menu()) {
@@ -55,7 +54,5 @@ public class Main {
             int userChoice = MainMenu.menu();
             System.out.println(userChoice);
         }
-            /*********************************************************/
     }
-
 }
