@@ -37,10 +37,23 @@ public class Main {
             System.out.println("   | |  | | | |  | |  | || |_ | || || |_ |___ \\   ___  | |_) | |/ _` |_  /_  / _` |");
             System.out.println("   | |  | |_| |  | |  |__   _|| ||__   _| ___) | |___| |  __/| | (_| |/ / / / (_| |");
             System.out.println("   |_|  |____/   |_|     |_|  |_|   |_|  |____/        |_|   |_|\\__,_/___/___\\__,_|");
+            System.out.println("---------------------------------------------------------------------------------------");
+            System.out.println("Disclaimer: this a demo-product showcasing a number of selected database functionalities.");
+            System.out.println("Consequently you might find unimplemented functionalities when using this product.");
+            System.out.print("Do you accept this? (y/n): ");
+            String userDisclaimer = new Scanner(System.in).nextLine();
+            if (userDisclaimer.toLowerCase().equals("y")) {
+                System.out.println("Thank you, Enjoy.");
+            } else {
+                exit();
+            }
         }
 
-        // Login and user creation
-        /*boolean loginStatus = false;
+
+
+
+        /*// Login and user creation
+        boolean loginStatus = false;
         while (!loginStatus) {
             switch (welcomeMenu.menu()) {
                 case 1 -> loginStatus = Login.prompt();
@@ -56,8 +69,9 @@ public class Main {
             // Main menu selection
             List<Object> posts = mainMenu.getPosts();
             switch (mainMenu.menu()) {
-                case 1 -> MainMenu.printPosts(posts);
-                case 2 -> {
+                case 1 -> mainMenu.printPosts(posts);
+                case 2 -> mainMenu.searchPosts(posts);
+                case 3 -> {
 
                     System.out.println("Select post to open");
                     System.out.print("Enter number: ");
@@ -76,7 +90,7 @@ public class Main {
                         }
                     }
                 }
-                case 3 -> mainMenu.createPost();
+                case 4 -> mainMenu.createPost();
                 case 5 -> exit();
             }
 

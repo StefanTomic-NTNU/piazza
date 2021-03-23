@@ -15,7 +15,7 @@ public class MainMenu implements Menu {
     /**
      * @param posts to be printed to the console.
      */
-    public static void printPosts(List<Object> posts) {
+    public void printPosts(List<Object> posts) {
         System.out.println("Printing posts is not yet implemented");
         int counter = 0;
 
@@ -42,9 +42,10 @@ public class MainMenu implements Menu {
         System.out.println();
         System.out.println("Select option");
         System.out.println("-------------------------");
-        System.out.println("1 - List posts");
-        System.out.println("2 - Open post");
-        System.out.println("3 - Create new post");
+        System.out.println("1 - List all posts");
+        System.out.println("2 - Search for posts");
+        System.out.println("3 - Open post");
+        System.out.println("4 - Create new post");
         System.out.println("5 - Quit");
         System.out.print("Enter number: ");
 
@@ -79,5 +80,17 @@ public class MainMenu implements Menu {
         } catch (Exception e) {
             System.out.println("And error occured : " + e.getMessage());
         }*/
+    }
+
+
+    /**
+     * @param posts to be searched
+     * @return a list of the posts that matches the search.
+     */
+    public List<Object> searchPosts(List<Object> posts) {
+        System.out.println("Searching for posts is not yet implemented");
+        return null;
+
+        //TODO: implement
     }
 }

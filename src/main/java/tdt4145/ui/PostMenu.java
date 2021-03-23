@@ -36,11 +36,10 @@ public class PostMenu implements Menu {
      * Prints the information about a given post
      *
      * @param selection the post to be selected.
-     * @param posts     to be selected from.
      */
     public void getInfo(int selection) {
         System.out.println("Printing of a Post's info is not yet implemented");
-        //TODO: get post title, comments, and nr. of likes
+        //TODO: get post title, comments, folder, and nr. of likes
     }
 
 
