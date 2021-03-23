@@ -72,7 +72,10 @@ public class ThreadDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, threadID);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getBoolean("anonymous");
+            if(resultSet.next()){
+                return resultSet.getBoolean("anonymous");
+            }
+            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
@@ -124,7 +127,10 @@ public class ThreadDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, threadID);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("parentID");
+            if(resultSet.next()){
+                return resultSet.getInt("parentID");
+            }
+            return -2;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;

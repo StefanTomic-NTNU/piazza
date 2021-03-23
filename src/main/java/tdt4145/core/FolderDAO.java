@@ -23,7 +23,10 @@ public class FolderDAO extends TemplateDAO {
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(sqlstatement2);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("folderID");
+            if(resultSet.next()){
+                return resultSet.getInt("folderID");
+            }
+            return -2;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
@@ -75,8 +78,10 @@ public class FolderDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
             resultSet = preparedStatement.executeQuery();
-            int result = resultSet.getInt("parent_folder");
-            return result;
+            if(resultSet.next()){
+                return resultSet.getInt("parent_folder");
+            }
+            return -2;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;

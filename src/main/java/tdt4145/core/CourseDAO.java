@@ -41,7 +41,10 @@ public class CourseDAO extends TemplateDAO {
             preparedStatement.setInt(2, year);
             preparedStatement.setInt(3, courseID);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getBoolean("allow_anonymous");
+            if(resultSet.next()){
+                return resultSet.getBoolean("allow_anonymous");
+            }
+            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
