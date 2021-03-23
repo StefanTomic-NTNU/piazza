@@ -9,7 +9,7 @@ CREATE TABLE `User` (
 );
 
 CREATE TABLE `Course` (
-  `courseID` int PRIMARY KEY,
+  `courseID` int PRIMARY KEY, --maybe varchar
   `name` varchar(255)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE `Comment` (
 CREATE TABLE `ViewedPosts` (
   `userID` int,
   `threadID` int,
-  `times_viewed` int,
+  `times_viewed` int DEFAULT 0,
   PRIMARY KEY (`userID`, `threadID`),
   CONSTRAINT `ViewedPosts_fk1` FOREIGN KEY (`userID`) REFERENCES `User` (`userID`) ON UPDATE CASCADE,
   CONSTRAINT `ViewedPosts_fk2` FOREIGN KEY (`threadID`) REFERENCES `Post` (`threadID`) ON UPDATE CASCADE

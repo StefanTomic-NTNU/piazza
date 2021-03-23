@@ -12,17 +12,22 @@ public class FolderDAO extends TemplateDAO{
         this.connection = super.getConnection();
     }
 
-    public boolean createFolder(String name){
+    public int createFolder(String name){
         String sqlstatement = "INSERT into Folder(name) VALUES(?)";
+        String sqlstatement2 = "SELECT LAST_INSERT_ID();";
+        ResultSet resultSet = null;
         try{
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
-            return true;
+            preparedStatement = connection.prepareStatement(sqlstatement2);
+            resultSet = preparedStatement.executeQuery();
+            int result = resultSet.getInt("folderID");
+            return result;
         }catch (SQLException sq){
             sq.printStackTrace();
-            return false;
+            return -1;
         }finally {
             Cleanup.enableAutoCommit(connection);
         }
@@ -68,11 +73,10 @@ public class FolderDAO extends TemplateDAO{
         String sqlstatement = "SELECT parent_folder FROM SubFolder where folderID = ?";
         ResultSet resultSet = null;
         try{
-            connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
             resultSet = preparedStatement.executeQuery();
-            int result = resultSet.getInt("folderID");
+            int result = resultSet.getInt("parent_folder");
             return result;
         }catch (SQLException sq) {
             sq.printStackTrace();
