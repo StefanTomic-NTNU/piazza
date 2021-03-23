@@ -1,4 +1,3 @@
---add not null in table
 CREATE TABLE `User` (
   `userID` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(64),

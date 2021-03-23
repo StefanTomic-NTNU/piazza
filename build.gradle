@@ -22,9 +22,6 @@ dependencies {
 
     implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.2'
 
-    // https://mvnrepository.com/artifact/com.mchange/mchange-commons-java
-    implementation group: 'com.mchange', name: 'mchange-commons-java', version: '0.2.11'
-
 }
 
 test {

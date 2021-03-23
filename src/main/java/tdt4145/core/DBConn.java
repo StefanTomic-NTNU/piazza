@@ -1,20 +1,22 @@
 package tdt4145.core;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public abstract class DBConn {
 
     protected Connection connection;
 
-    public DBConn(){
+    public DBConn() {
     }
 
     public void connect() throws SQLException {
         // Load the JDBC driver
         try {
-            //Class.forName("com.mysql.cj.jdbc.Driver");
-            Class.forName("org.mariadb.jdbc.Driver");
-        }catch (ClassNotFoundException e){
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("org.mariadb.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -26,7 +28,7 @@ public abstract class DBConn {
         //        ("jdbc:mysql://localhost/databpros", "root", "Lamarchequidurelong41");
 
         connection = DriverManager.getConnection
-                ("jdbc:mysql://localhost/piazzaProject", "admin", "mypass");
+                ("jdbc:mysql://localhost/piazzaproject", "admin", "mypass");
 
 
         System.out.println("Successfully connected to database");
