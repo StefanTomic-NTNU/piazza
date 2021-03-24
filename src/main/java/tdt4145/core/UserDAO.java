@@ -83,6 +83,7 @@ public class UserDAO extends TemplateDAO{
         try {
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             if(!(resultSet.next())){
                 return -2;

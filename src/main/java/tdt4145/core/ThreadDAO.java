@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThreadDAO extends TemplateDAO {
     private final Connection connection;
@@ -170,6 +171,36 @@ public class ThreadDAO extends TemplateDAO {
             sqlException.printStackTrace();
             return -1;
         }
+    }
+
+    public List<Integer> searchByKeyword(String keyword) {
+        List<Integer> searchResults = new ArrayList<>();
+        String sqlstatement1 = "SELECT threadID FROM thread WHERE text LIKE ?";
+        String sqlstatement2 = "SELECT threadID FROM post WHERE title LIKE ?";
+        String sqlstatement3 = "" +
+                "SELECT DISTINCT *" +
+                " FROM " +
+                "(" +
+                "(SELECT threadID AS t_threadID FROM thread WHERE text LIKE ?) AS t_table" +
+                " JOIN " +
+                "(SELECT threadID AS p_threadID FROM post WHERE title LIKE ?) AS p_table" +
+                " ON t_threadID = p_threadID" +
+                ")";
+        ResultSet resultSet;
+        try {
+            //PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement1);
+            //PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2);
+            //preparedStatement1.setString(1, "%" + keyword + "%");
+            PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement3);
+            preparedStatement3.setString(1,"%" + keyword + "%");
+            preparedStatement3.setString(2,"%" + keyword + "%");
+            resultSet = preparedStatement3.executeQuery();
+            while (resultSet.next()) {
+                searchResults.add(resultSet.getInt("threadID"));
+            }
+        } catch (SQLException sq) {
+            sq.printStackTrace();
+        } return searchResults;
     }
 
 

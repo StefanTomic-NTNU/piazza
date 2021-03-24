@@ -91,8 +91,10 @@ public class MainMenu implements Menu {
 
         try {
             ThreadDAO dao = new ThreadDAO();
-            //dao.search(search);
-            //print result
+            List<Integer> result = dao.searchByKeyword(search);
+            for (Integer integer : result) {
+                System.out.println(integer);
+            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

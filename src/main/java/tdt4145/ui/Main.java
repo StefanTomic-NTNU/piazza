@@ -28,10 +28,10 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase(null, null);
+        Database.setNewDatabase("admin", "mypass");
         // MainMenu.initCourse();
 
-
+/*
         {
             System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
             System.out.println(" |_   _||  _ \\ |_   _|| || |  / || || |  | ___|        |  _ \\(_) __ _ __________ _ ");
@@ -60,10 +60,10 @@ public class Main {
                 case 2 -> CreateUser.create();
                 case 5 -> exit();
             }
-        }
+        }*/
 
 
-        // int loggedInUserID = 1;
+        int loggedInUserID = 1;
         // main program loop
         while (loggedInUserID >= 0) {
 
