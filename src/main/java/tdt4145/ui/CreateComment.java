@@ -9,31 +9,21 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Creates Comment and corresponding Thread
+ * Creates Comment and corresponding Thread.
+ * Content of Comment is input by user.
  */
 public class CreateComment {
 
+    /**
+     *
+     * @param parentID ID of the thread the comment is replying to
+     * @param loggedInUserID The ID of the user submitting the comment
+     * @return true if Comment was successfully submitted. Otherwise false
+     */
     public static boolean create(int parentID, int loggedInUserID) {
         String text;
         List<String> textList = new ArrayList<>();
-        // int parentID = -1;
-        Boolean allowAnonymous = false;
-        Boolean anonymous = false;
         Scanner textInput = new Scanner(System.in);
-        Scanner parentIDInput = new Scanner(System.in);
-        Scanner anonymousInput = new Scanner(System.in);
-
-        /*
-        while (parentID < 0) {
-            System.out.print("Enter parent thread id: ");
-            try {
-                parentID = Integer.parseInt(parentIDInput.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Input must be an int");
-                break;
-            }
-        }
-        */
 
         System.out.println(" -- COMMENT CREATION --");
         System.out.println();
@@ -63,8 +53,8 @@ public class CreateComment {
         } catch (SQLException sqlException) {
             System.out.println("Comment creation failed..");
             sqlException.printStackTrace();
+            return false;
         }
-
         return true;
     }
 }
