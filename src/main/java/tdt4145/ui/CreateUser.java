@@ -69,9 +69,18 @@ public class CreateUser {
         // Adds data to database
         try {
             UserDAO dao = new UserDAO();
-            dao.addUser(email, username, password.toCharArray());
-            System.out.println("User '" + username + "' successfully created!");
-            return true;
+            int returnvalue = dao.addUser(email, username, password.toCharArray());
+            if(returnvalue == -1){
+                System.out.println("User creation failed..");
+                System.out.println("please try again");
+            }
+            else if(returnvalue == -2){
+                System.out.println("email allready registered please login or use another email");
+            }else {
+                System.out.println("User '" + username + "' successfully created!");
+                return true;
+            }
+            return false;
         } catch (SQLException sqlException) {
             System.out.println("User creation failed..");
             sqlException.printStackTrace();

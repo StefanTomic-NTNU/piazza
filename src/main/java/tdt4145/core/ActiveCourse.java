@@ -1,5 +1,9 @@
 package tdt4145.core;
 
+/**
+ * Class activecourse that stores term, year courseID and allow_anonymous
+ */
+
 public class ActiveCourse {
 
     private final String term;

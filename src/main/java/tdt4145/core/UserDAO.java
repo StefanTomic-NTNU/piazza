@@ -67,7 +67,17 @@ public class UserDAO extends TemplateDAO {
         }
     }
 
-    public int addUser(String email, String name, char[] password) throws SQLException { //be carefull password has to be char[]
+    /**
+     * Checks if user has the email in the database before
+     * Add user to the database and retrieves the id for the user that has been created.
+     * @param email users email
+     * @param name users name
+     * @param password users password with char[]
+     * @return the id of the user that has been created
+     *
+     */
+
+    public int addUser(String email, String name, char[] password){ //be carefull password has to be char[]
         String sqlstatement = "SELECT name FROM User WHERE email = ?";
         String sqlSentence = "INSERT INTO User (name, email, password, salt) VALUES(?,?,?,?);";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
@@ -90,7 +100,10 @@ public class UserDAO extends TemplateDAO {
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(sqlstatement2);
             resultSet = preparedStatement.executeQuery();
-            return resultSet.getInt("userID"); //returns int no longer boolean
+            if(resultSet.next()){
+                return resultSet.getInt("last_insert_id()"); //returns int no longer boolean
+            }
+            return -1;
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
@@ -156,6 +169,15 @@ public class UserDAO extends TemplateDAO {
         return -1;
     }
 
+    /**
+     *
+     * If viewedpost allready exist update the times_viewed variable by adding 1. If viewedpost does not exist
+     * append a new row to the database
+     * @param userID id of the user
+     * @param threadID id of the thread
+     * @return a status for the insert
+     */
+
     public boolean viewedPost(int userID, int threadID) {
         String sqlstatement = "SELECT times_viewed From ViewedPosts WHERE userID = ? and threadID = ?";
         String sqlstatement2 = "UPDATE ViewedPosts SET times_viewed = ? WHERE userID = ? and threadID = ?";
@@ -196,6 +218,14 @@ public class UserDAO extends TemplateDAO {
         }
     }
 
+    /**
+     *
+     * inserts in the database a like for a thread.
+     * @param userID id of the user
+     * @param threadID id of the thread
+     * @return a status for the insert
+     */
+
     public boolean likethread(int userID, int threadID) {
         String sqlstatement = "INSERT INTO likes(userID, threadID) VALUES(?,?)";
 
@@ -213,6 +243,12 @@ public class UserDAO extends TemplateDAO {
             Cleanup.enableAutoCommit(connection);
         }
     }
+
+    /**
+     * checks the database if the user has instructor privileges.
+     * @param userID id of the user
+     * @return a boolean with true if a user has instructor privileges and false if it does not
+     */
 
     public boolean getInstructor(int userID) {
         String sqlstatement = "SELECT instructor_privileges FROM User WHERE userID = ?";
@@ -232,6 +268,11 @@ public class UserDAO extends TemplateDAO {
         }
     }
 
+    /**
+     * The method ask the db for the name, the number of read posts and the number of post each user has created and
+     * sorts it by the number of post read.
+     * @return an arrayList of userOverview objects that give statistics about the users on piazza
+     */
 
     public ArrayList<UserOverview> overviewStatistics() {
         String sqlstatement = "SELECT distinct User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +

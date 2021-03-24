@@ -1,5 +1,9 @@
 package tdt4145.core;
 
+/**
+ * Class that stores the name and number of post created (nbpost) and number of post read by a user (nbreadposts)
+ */
+
 public class UserOverview {
 
     private final String name;

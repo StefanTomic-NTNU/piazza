@@ -14,6 +14,14 @@ public class CourseDAO extends TemplateDAO {
         this.connection = super.getConnection();
     }
 
+    /**
+     * Insert in the db a new row in ActiveCourse
+     * @param courseID that takes in the id for the course
+     * @param term takes in the term for the course
+     * @param year takes in the actual year
+     * @param allow_anonymous if the course allows anonymous post or comments
+     * @return a status for insert as a boolean
+     */
     public boolean createActiveCourse(int courseID, String term, int year, boolean allow_anonymous) {
         String sqlstatement = "INSERT into ActiveCourse(term, year, allow_anonymous, courseID) VALUES(?,?,?,?)";
         try {
@@ -33,6 +41,16 @@ public class CourseDAO extends TemplateDAO {
         }
     }
 
+    /**
+     *
+     * @param term as string for the actual term for this course
+     * @param year as an int for the actual year for this course
+     * @param courseID the id of the course
+     * @return a boolean, returns true
+     * if the course allows users to create anonymous posts or comments in the course and false if the user can not
+     * create anonymous posts.
+     */
+
     public boolean getAnonymousCourse(String term, int year, int courseID) {
         String sqlstatement = "SELECT allow_anonymous FROM ActiveCourse WHERE term = ? and year = ? and courseID = ?";
         ResultSet resultSet;
@@ -51,6 +69,11 @@ public class CourseDAO extends TemplateDAO {
             return false;
         }
     }
+
+    /**
+     * Gets all the courses that are registered in the db
+     * @return an arraylist of all the object course that stores courseID and name
+     */
 
     public ArrayList<Course> getCourses(){
         ArrayList<Course>  courses = new ArrayList<>();
