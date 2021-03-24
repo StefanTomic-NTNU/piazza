@@ -3,13 +3,11 @@ package tdt4145.ui;
 import tdt4145.core.FolderDAO;
 import tdt4145.core.Tag;
 import tdt4145.core.ThreadDAO;
-import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 
 /**
@@ -19,7 +17,6 @@ import java.util.regex.Pattern;
 public class CreatePost {
 
     public static boolean create(int loggedInUserID) {
-
         String title = "";
         String text = "";
         List<String> textList = new ArrayList<>();
@@ -35,9 +32,6 @@ public class CreatePost {
         Scanner folderInput = new Scanner(System.in);
         Scanner anonymousInput = new Scanner(System.in);
         Scanner tagInput = new Scanner(System.in);
-
-
-        /***************************************************/
 
         System.out.println("Please specify the name of folder the post belongs to: ");
 
@@ -69,6 +63,7 @@ public class CreatePost {
         System.out.println("Lines will keep being added until you write only ':wq'");
         System.out.println("You can undo previously added line by writing only 'undo_line'");
         System.out.println("To view post content write only 'print'");
+
         while (true) {
             text = textInput.nextLine();
             if (text.equals(":wq")) {
@@ -83,6 +78,7 @@ public class CreatePost {
                 textList.add(text);
             }
         }
+
         text = String.join("\n", textList);
         System.out.println(" ");
 
@@ -98,9 +94,11 @@ public class CreatePost {
         } catch (SQLException sq) {
             sq.printStackTrace();
         } // Add tags from list
+
         System.out.println();
         System.out.println("Please enter the names of the tags you wish to add");
         System.out.println("When you are happy with the tags, write ':wq' to finish post creation");
+
         while (true) {
             try {
                 ThreadDAO threadDAO2 = new ThreadDAO();
@@ -132,8 +130,7 @@ public class CreatePost {
             System.out.println("Post creation failed..");
             sqlException.printStackTrace();
         }
+
         return true;
     }
-
-
 }

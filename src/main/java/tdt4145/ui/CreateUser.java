@@ -23,7 +23,6 @@ public class CreateUser {
      * @return True if creation was successful, otherwise False.
      */
     public static boolean create() {
-
         String username;
         String email;
         String password;
@@ -79,5 +78,4 @@ public class CreateUser {
         }
         return false;
     }
-
 }

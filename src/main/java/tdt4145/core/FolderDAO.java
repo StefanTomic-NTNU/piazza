@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FolderDAO extends TemplateDAO {
+
     private final Connection connection;
 
     public FolderDAO() throws SQLException {
@@ -23,7 +24,7 @@ public class FolderDAO extends TemplateDAO {
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement(sqlstatement2);
             resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt("folderID");
             }
             return -2;
@@ -78,7 +79,7 @@ public class FolderDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setInt(1, folderID);
             resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 return resultSet.getInt("parent_folder");
             }
             return -2;
@@ -95,7 +96,7 @@ public class FolderDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setString(1, name);
             resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt("folderID");
             }
             return -2;
@@ -104,6 +105,4 @@ public class FolderDAO extends TemplateDAO {
             return -1;
         }
     }
-
-
 }

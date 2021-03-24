@@ -19,15 +19,15 @@ public class ActiveCourse {
         return term;
     }
 
-    public int getYear(){
+    public int getYear() {
         return year;
     }
 
-    public int getCourseID(){
+    public int getCourseID() {
         return courseID;
     }
 
-    public boolean isAllow_anoymous(){
+    public boolean isAllow_anoymous() {
         return allow_anoymous;
     }
 

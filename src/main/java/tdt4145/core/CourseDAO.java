@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CourseDAO extends TemplateDAO {
+
     private final Connection connection;
 
     public CourseDAO() throws SQLException {
@@ -72,6 +73,4 @@ public class CourseDAO extends TemplateDAO {
             return courses;
         }
     }
-
-
 }

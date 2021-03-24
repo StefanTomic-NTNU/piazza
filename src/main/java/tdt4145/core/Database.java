@@ -16,7 +16,6 @@ public class Database {
 
     private static Database database;
     private static ComboPooledDataSource comboPooledDataSource;
-
     private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String DATABASE_USERNAME = null;
     private static String DATABASE_URL = "jdbc:mysql://localhost/piazzaproject";
@@ -26,10 +25,8 @@ public class Database {
      * Sets up ComboPooledDataSource to handle multiple simultaneous queries to Database
      */
     private Database() {
-
         // if not given pw & username, read from .properties file
         if (DATABASE_USERNAME == null || DATABASE_PASSWORD == null) {
-
             try {
                 File file = new File("src/main/resources/tdt4145/core/setup.txt");
                 System.out.println(file.getAbsolutePath());
@@ -81,7 +78,6 @@ public class Database {
      *
      * @return an instance of Database, either the existing one, or a new one.
      */
-
     public static Database getInstance() {
         if (database == null) database = new Database();
         return database;
@@ -103,10 +99,7 @@ public class Database {
      * @return a connection to the Database object
      * @throws SQLException TODO: write here
      */
-
     public Connection getConnection() throws SQLException { // why was this static, if you don't mind me asking?
         return comboPooledDataSource.getConnection();
     }
-
-
 }
