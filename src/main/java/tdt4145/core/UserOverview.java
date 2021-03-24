@@ -6,10 +6,10 @@ public class UserOverview {
     private int nbpost;
     private int nbreadposts;
 
-    public UserOverview(String name, int nbpost, int nbreadposts){
+    public UserOverview(String name, int nbreadposts, int nbpost){
         this.name = name;
-        this.nbpost = nbpost;
-        this.nbreadposts = nbreadposts;
+        this.nbpost = nbreadposts;
+        this.nbreadposts = nbpost;
     }
 
     public String getName() {
