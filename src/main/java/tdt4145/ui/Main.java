@@ -28,8 +28,7 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase("admin", "mypass");
-        // MainMenu.initCourse();
+        Database.setNewDatabase("stefandt_gr148", "beste_grp");
 
         {
             System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
