@@ -1,7 +1,6 @@
 package tdt4145.ui;
 
-import tdt4145.core.CourseDAO;
-import tdt4145.core.ThreadDAO;
+import tdt4145.core.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,17 +38,6 @@ public class MainMenu implements Menu {
     public int menu() {
         int selection;
         Scanner input = new Scanner(System.in);
-
-        System.out.println();
-        System.out.println("Select option");
-        System.out.println("-------------------------");
-        System.out.println("1 - List all posts");
-        System.out.println("2 - Search for posts");
-        System.out.println("3 - Open post");
-        System.out.println("4 - Create new thread");
-        System.out.println("5 - Quit");
-        System.out.print("Enter number: ");
-
         selection = input.nextInt();
         System.out.println();
 
@@ -78,13 +66,10 @@ public class MainMenu implements Menu {
 
 
     /**
+     *  Prints a list of the posts that matches the search.
      * @param posts to be searched
-     * @return a list of the posts that matches the search.
      */
     public void searchPosts(List<Object> posts) {
-        System.out.println("Searching for posts is not yet implemented");
-
-        //TODO: implement searching
 
         System.out.print("Search: ");
         String search = new Scanner(System.in).nextLine();
@@ -97,6 +82,33 @@ public class MainMenu implements Menu {
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
+        }
+    }
+
+    /**
+     * Prints per user post statistics to console
+     * the columns consist of:
+     * USERNAME, NR POSTS VIEWED, NR POSTS WRITTEN
+     */
+    public void viewStatistics() {
+        try {
+            UserDAO userDAO = new UserDAO();
+            ArrayList<UserOverview> statistics = userDAO.overviewStatistics();
+            int length = statistics.size();
+            Object[][] table = new String[length+1][];
+            table[0] = new String[] {"USERNAME", "NR. VIEWED", "NR. WRITTEN"};
+            for (int i=0; i < length; i++) {
+                UserOverview ow = statistics.get(i);
+                table[i+1] = new String[] {ow.getName(),
+                        Integer.valueOf(ow.getNbreadposts()).toString(),
+                        Integer.valueOf(ow.getNbpost()).toString()};
+            }
+            System.out.println("-------- PER USER POST STATISTICS --------");
+            for (Object[] row : table) {
+                System.out.format("%-15s%-15s%-15s%n", row);
+            }
+        } catch (SQLException sq) {
+            sq.printStackTrace();
         }
     }
 }

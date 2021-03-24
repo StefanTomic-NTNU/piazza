@@ -277,11 +277,11 @@ public class UserDAO extends TemplateDAO {
      */
 
     public ArrayList<UserOverview> overviewStatistics() {
-        String sqlstatement = "SELECT distinct User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
-                "FROM" +
-                "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID" +
-                "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID" +
-                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID" +
+        String sqlstatement = "SELECT DISTINCT User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
+                " FROM " +
+                "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID " +
+                "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID " +
+                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID " +
                 "GROUP BY User.name ORDER BY nbreadpost DESC";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();
@@ -293,8 +293,8 @@ public class UserDAO extends TemplateDAO {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 name = resultSet.getString("name");
-                nbposts = resultSet.getInt("nbreadpost");
-                nbreadpost = resultSet.getInt("nbpost");
+                nbreadpost = resultSet.getInt("nbreadpost");
+                nbposts = resultSet.getInt("nbpost");
                 UserOverview userOverview = new UserOverview(name, nbposts, nbreadpost);
                 userOverviews.add(userOverview);
             }
