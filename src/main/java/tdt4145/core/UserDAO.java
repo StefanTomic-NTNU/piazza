@@ -22,7 +22,6 @@ public class UserDAO extends TemplateDAO {
      * @return true if log in is successful, false if not
      */
     public boolean logIn(String email) throws SQLException {
-        //add in check to see if user is already logged in
         String sqlSentence1 = "SELECT logged_in FROM User WHERE email = ?";
         String sqlSentence2 = "UPDATE User SET logged_in = '1' WHERE email = ?";
         boolean resultBoolean = false;
@@ -81,35 +80,40 @@ public class UserDAO extends TemplateDAO {
         String sqlstatement = "SELECT name FROM User WHERE email = ?";
         String sqlSentence = "INSERT INTO User (name, email, password, salt) VALUES(?,?,?,?);";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         byte[] salt = Password.getSalt();
         byte[] hashedPassword = Password.hash(password, salt);
-        try {
+        try (PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement);
+        PreparedStatement preparedStatement2 = connection.prepareStatement(sqlSentence);
+        PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement2)){
+
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            preparedStatement.setString(1, email);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement1.setString(1, email);
+            resultSet = preparedStatement1.executeQuery();
             if (resultSet.next()) {
+                Cleanup.enableAutoCommit(connection);
+                Cleanup.closeResultSet(resultSet);
                 return -2;
             }
-            preparedStatement = connection.prepareStatement(sqlSentence);
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, email);
-            preparedStatement.setBytes(3, hashedPassword);
-            preparedStatement.setBytes(4, salt);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement(sqlstatement2);
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement2.setString(1, name);
+            preparedStatement2.setString(2, email);
+            preparedStatement2.setBytes(3, hashedPassword);
+            preparedStatement2.setBytes(4, salt);
+            preparedStatement2.executeUpdate();
+            connection.commit();
+            resultSet = preparedStatement3.executeQuery();
             if(resultSet.next()){
+                Cleanup.enableAutoCommit((connection));
                 return resultSet.getInt("last_insert_id()"); //returns int no longer boolean
             }
-            return -1;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return -1;
+            Cleanup.performRollback(connection);
         } finally {
             Cleanup.enableAutoCommit((connection));
+            Cleanup.closeResultSet(resultSet);
         }
+        return -1;
     }
 
     /**
@@ -182,40 +186,42 @@ public class UserDAO extends TemplateDAO {
         String sqlstatement = "SELECT times_viewed From ViewedPosts WHERE userID = ? and threadID = ?";
         String sqlstatement2 = "UPDATE ViewedPosts SET times_viewed = ? WHERE userID = ? and threadID = ?";
         String sqlstatement3 = "INSERT INTO ViewedPosts(userID, threadID) VALUES(?,?)";
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         int times_viewed = -1;
 
-        try {
+        try(PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement);
+        PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2);
+        PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement3);) {
+
             connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            preparedStatement.setInt(1, userID);
-            preparedStatement.setInt(2, threadID);
-            resultSet = preparedStatement.executeQuery();
+
+            preparedStatement1.setInt(1, userID);
+            preparedStatement1.setInt(2, threadID);
+            resultSet = preparedStatement1.executeQuery();
             if (resultSet.next()) {
                 times_viewed = resultSet.getInt("times_viewed");
             }
 
             if (times_viewed > -1) {
-                preparedStatement = connection.prepareStatement(sqlstatement2);
-                preparedStatement.setInt(1, times_viewed);
-                preparedStatement.setInt(2, userID);
-                preparedStatement.setInt(3, threadID);
-                preparedStatement.executeUpdate();
+                preparedStatement2.setInt(1, times_viewed);
+                preparedStatement2.setInt(2, userID);
+                preparedStatement2.setInt(3, threadID);
+                preparedStatement2.executeUpdate();
+                connection.commit();
             } else {
-                preparedStatement = connection.prepareStatement(sqlstatement3);
-                preparedStatement.setInt(1, userID);
-                preparedStatement.setInt(2, threadID);
-                preparedStatement.executeUpdate();
+                preparedStatement3.setInt(1, userID);
+                preparedStatement3.setInt(2, threadID);
+                preparedStatement3.executeUpdate();
+                connection.commit();
             }
-
-            return true;
-
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
+            Cleanup.performRollback(connection);
         } finally {
             Cleanup.enableAutoCommit(connection);
+            Cleanup.closeResultSet(resultSet);
         }
+        return true;
     }
 
     /**
@@ -229,19 +235,15 @@ public class UserDAO extends TemplateDAO {
     public boolean likethread(int userID, int threadID) {
         String sqlstatement = "INSERT INTO likes(userID, threadID) VALUES(?,?)";
 
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, threadID);
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
+        return false;
     }
 
     /**
@@ -254,18 +256,18 @@ public class UserDAO extends TemplateDAO {
         String sqlstatement = "SELECT instructor_privileges FROM User WHERE userID = ?";
         ResultSet resultSet = null;
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, userID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getBoolean("instructor_privileges");
             }
-            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return false;
     }
 
     /**
@@ -287,8 +289,7 @@ public class UserDAO extends TemplateDAO {
         int nbposts = 0;
         int nbreadpost = 0;
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 name = resultSet.getString("name");
@@ -297,11 +298,12 @@ public class UserDAO extends TemplateDAO {
                 UserOverview userOverview = new UserOverview(name, nbposts, nbreadpost);
                 userOverviews.add(userOverview);
             }
-            return userOverviews;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return userOverviews;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return userOverviews;
     }
 
 /* Non-working code. May be useful at some point.

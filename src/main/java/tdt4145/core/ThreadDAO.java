@@ -30,19 +30,20 @@ public class ThreadDAO extends TemplateDAO {
         String sqlstatement2 = "SELECT LAST_INSERT_ID()";
         ResultSet resultSet = null;
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2)){
             preparedStatement.setString(1, text);
             preparedStatement.setBoolean(2, anonymous);
             preparedStatement.setInt(3, userID);
             preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement(sqlstatement2);
-            resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement2.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("last_insert_id()");
             }
         } catch (SQLException sq) {
             sq.printStackTrace();
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
 
         return -1;
@@ -50,23 +51,20 @@ public class ThreadDAO extends TemplateDAO {
 
     public boolean check_anonymous(int threadID) {
         String sqlstatement = "SELECT anonymous FROM Thread WHERE threadID = ?";
-        ResultSet resultSet;
+        ResultSet resultSet = null;
 
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, threadID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getBoolean("anonymous");
             }
-            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
         } finally {
-            Cleanup.enableAutoCommit(connection);
+            Cleanup.closeResultSet(resultSet);
         }
+        return false;
     }
 
     /**
@@ -80,9 +78,7 @@ public class ThreadDAO extends TemplateDAO {
     public boolean CreatePost(String title, int colour, int folderID, int threadID) {
         String sqlstatement = "INSERT INTO Post(threadID, title, colour, folderID) VALUES(?,?,?,?)";
 
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, threadID);
             preparedStatement.setString(2, title);
             preparedStatement.setInt(3, colour);
@@ -91,10 +87,8 @@ public class ThreadDAO extends TemplateDAO {
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
+        return false;
     }
 
     /**
@@ -106,19 +100,15 @@ public class ThreadDAO extends TemplateDAO {
     public boolean CreateComment(int threadID, int parentID) {
         String sqlstatement = "INSERT INTO Comment VALUES(?, ?)";
 
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, threadID);
             preparedStatement.setInt(2, parentID);
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
+        return false;
     }
 
     /**
@@ -128,20 +118,19 @@ public class ThreadDAO extends TemplateDAO {
      */
     public int getTopThread(int threadID) {
         String sqlstatement = "SELECT parentID FROM Comment where threadID = ?";
-        ResultSet resultSet;
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        ResultSet resultSet = null;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setInt(1, threadID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("parentID");
             }
-            return -2;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return -1;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return -1;
     }
 
     /**
@@ -152,22 +141,17 @@ public class ThreadDAO extends TemplateDAO {
      */
 
     public boolean linkPostTags(int threadID, int tagID) {
-        String sqlstatement = "INSERT INTO PostTags(threadID, tagID) VALUES(?, ?)";
+        String sqlstatement2 = "INSERT INTO PostTags(threadID, tagID) VALUES(?, ?)";
 
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement2)) {
             preparedStatement.setInt(1, threadID);
             preparedStatement.setInt(2, tagID);
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
-
+        return false;
     }
 
     /**
@@ -182,8 +166,7 @@ public class ThreadDAO extends TemplateDAO {
         int tagid = 0;
         String label = "";
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 tagid = resultSet.getInt("tagID");
@@ -191,11 +174,12 @@ public class ThreadDAO extends TemplateDAO {
                 Tag tag = new Tag(tagid, label);
                 tags.add(tag);
             }
-            return tags;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return tags;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return tags;
     }
 
     /**
@@ -206,20 +190,20 @@ public class ThreadDAO extends TemplateDAO {
 
     public int getTagID(String label) {
         String sqlstatement = "SELECT tagID FROM tags WHERE label = ?";
-        ResultSet resultSet;
+        ResultSet resultSet = null;
 
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setString(1, label);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("tagID");
             }
-            return -2;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-            return -1;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return -1;
     }
 
     /**
@@ -227,11 +211,12 @@ public class ThreadDAO extends TemplateDAO {
      * @param keyword as a string input by the user
      * @return an arraylist of integers that stores all the post ids from the db
      */
+
     public ArrayList<Integer> searchByKeyword(String keyword){
         String sqlstatement = "SELECT DISTINCT Thread.threadID FROM Post, Thread WHERE " +
                 "((Post.threadID = Thread.threadID AND Post.title LIKE ?) OR (Thread.text LIKE ?))";
 
-        ResultSet resultSet;
+        ResultSet resultSet = null;
         int id = 0;
         ArrayList<Integer> ids = new ArrayList<>();
 
@@ -239,6 +224,7 @@ public class ThreadDAO extends TemplateDAO {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
             preparedStatement.setString(1, "%" + keyword + "%");
             preparedStatement.setString(2, "%" + keyword + "%");
+
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getInt("threadID");
@@ -246,8 +232,11 @@ public class ThreadDAO extends TemplateDAO {
             }
         } catch (SQLException sq) {
             sq.printStackTrace();
-        } finally {
-            return ids;
+
+        }finally {
+            Cleanup.closeResultSet(resultSet);
+          return ids;
         }
+        
     }
 }

@@ -22,14 +22,12 @@ public class FolderDAO extends TemplateDAO {
     public int createFolder(String name) {
         String sqlstatement = "INSERT into Folder(name) VALUES(?)";
         String sqlstatement2 = "SELECT LAST_INSERT_ID();";
-        ResultSet resultSet;
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            preparedStatement.setString(1, name);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement(sqlstatement2);
-            resultSet = preparedStatement.executeQuery();
+        ResultSet resultSet = null;
+        try(PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2)) {
+            preparedStatement1.setString(1, name);
+            preparedStatement1.executeUpdate();
+            resultSet = preparedStatement2.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("last_insert_id()");
             }
@@ -37,8 +35,8 @@ public class FolderDAO extends TemplateDAO {
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
     }
 
@@ -53,9 +51,7 @@ public class FolderDAO extends TemplateDAO {
 
     public boolean createRootFolder(int folderID, int courseID, String term, int year) {
         String sqlstatement = "INSERT into RootFolder(folderID, courseID, term, year) VALUES(?, ?, ?, ?)";
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, folderID);
             preparedStatement.setInt(2, courseID);
             preparedStatement.setString(3, term);
@@ -65,16 +61,12 @@ public class FolderDAO extends TemplateDAO {
         } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
     }
 
     public boolean createSubFolder(int folderID, int parentfolder) {
         String sqlstatement = "INSERT into SubFolder(folderID, parent_folder) VALUES(?,?)";
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setInt(1, folderID);
             preparedStatement.setInt(2, parentfolder);
             preparedStatement.executeUpdate();
@@ -82,16 +74,13 @@ public class FolderDAO extends TemplateDAO {
         } catch (SQLException sq) {
             sq.printStackTrace();
             return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
     }
 
     public int getTopFolder(int folderID) {
         String sqlstatement = "SELECT parent_folder FROM SubFolder where folderID = ?";
-        ResultSet resultSet;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setInt(1, folderID);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -101,6 +90,8 @@ public class FolderDAO extends TemplateDAO {
         } catch (SQLException sq) {
             sq.printStackTrace();
             return -1;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
     }
 
@@ -112,9 +103,8 @@ public class FolderDAO extends TemplateDAO {
 
     public int getFolderID(String name) {
         String sqlstatement = "SELECT folderID FROM folder WHERE name = ?";
-        ResultSet resultSet;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        ResultSet resultSet = null;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setString(1, name);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -124,6 +114,8 @@ public class FolderDAO extends TemplateDAO {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return -1;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
     }
 }
