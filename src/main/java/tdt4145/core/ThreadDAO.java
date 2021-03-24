@@ -167,16 +167,16 @@ public class ThreadDAO extends TemplateDAO {
         }
     }
     //check sql
-    public ArrayList<Integer> searchpost(String keyword){
-        String sqlstatement = "SELECT Post.threadID FROM Post, Thread WHERE " +
-                "Thread.threadID = Post.threadID AND Thread.text LIKE %?% AND Post.title LIKE %?%";
+    public ArrayList<Integer> searchByKeyword(String keyword){
+        String sqlstatement = "SELECT DISTINCT Thread.threadID FROM Post, Thread WHERE " +
+                "((Post.threadID = Thread.threadID AND Post.title LIKE ?) OR (Thread.text LIKE ?))";
         ResultSet resultSet;
         int id = 0;
         ArrayList<Integer> ids = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            preparedStatement.setString(1, keyword);
-            preparedStatement.setString(2, keyword);
+            preparedStatement.setString(1, "%" + keyword + "%");
+            preparedStatement.setString(2, "%" + keyword + "%");
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 id = resultSet.getInt("threadID");
@@ -187,36 +187,6 @@ public class ThreadDAO extends TemplateDAO {
             sq.printStackTrace();
             return ids;
         }
-    }
-
-    public List<Integer> searchByKeyword(String keyword) {
-        List<Integer> searchResults = new ArrayList<>();
-        String sqlstatement1 = "SELECT threadID FROM thread WHERE text LIKE ?";
-        String sqlstatement2 = "SELECT threadID FROM post WHERE title LIKE ?";
-        String sqlstatement3 = "" +
-                "SELECT DISTINCT *" +
-                " FROM " +
-                "(" +
-                "(SELECT threadID AS t_threadID FROM thread WHERE text LIKE ?) AS t_table" +
-                " JOIN " +
-                "(SELECT threadID AS p_threadID FROM post WHERE title LIKE ?) AS p_table" +
-                " ON t_threadID = p_threadID" +
-                ")";
-        ResultSet resultSet;
-        try {
-            //PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement1);
-            //PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2);
-            //preparedStatement1.setString(1, "%" + keyword + "%");
-            PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement3);
-            preparedStatement3.setString(1,"%" + keyword + "%");
-            preparedStatement3.setString(2,"%" + keyword + "%");
-            resultSet = preparedStatement3.executeQuery();
-            while (resultSet.next()) {
-                searchResults.add(resultSet.getInt("threadID"));
-            }
-        } catch (SQLException sq) {
-            sq.printStackTrace();
-        } return searchResults;
     }
 
 
