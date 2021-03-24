@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 public class ThreadDAO extends TemplateDAO {
     private final Connection connection;
-    //TODO create search function
-    //TODO get statistics on user if user has priviligies, created post, watched posts
-    //The output is “user name, number of posts read, number of posts created
-    // The result should also include users which have not read or created posts.
 
     public ThreadDAO() throws SQLException {
         this.connection = super.getConnection();

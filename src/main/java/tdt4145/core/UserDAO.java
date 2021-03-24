@@ -235,7 +235,7 @@ public class UserDAO extends TemplateDAO{
         }
     }
 
-    //TODO finish it
+
     public ArrayList<UserOverview> overviewStatistics(){
         String sqlstatement = "SELECT distinct User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
                 "FROM" +
