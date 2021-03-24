@@ -11,6 +11,18 @@ public abstract class DBConn {
     public DBConn() {
     }
 
+    public static void main(String[] args) throws SQLException {
+        //Test connection
+        DBConn conn = new DBConn() {
+            @Override
+            public void connect() throws SQLException {
+                super.connect();
+            }
+        };
+        conn.connect();
+        System.out.println("success");
+    }
+
     public void connect() throws SQLException {
         // Load the JDBC driver
         try {

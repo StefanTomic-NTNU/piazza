@@ -18,7 +18,7 @@ public class Database {
     private static ComboPooledDataSource comboPooledDataSource;
     private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static String DATABASE_USERNAME = null;
-    private static String DATABASE_URL = "jdbc:mysql://localhost/piazzaproject";
+    private static String DATABASE_URL = "jdbc:mysql://10.0.0.12/piazzaProject";
     private static String DATABASE_PASSWORD = null;
 
     /**
