@@ -24,9 +24,7 @@ public class CourseDAO extends TemplateDAO {
      */
     public boolean createActiveCourse(int courseID, String term, int year, boolean allow_anonymous) {
         String sqlstatement = "INSERT into ActiveCourse(term, year, allow_anonymous, courseID) VALUES(?,?,?,?)";
-        try {
-            connection.setAutoCommit(false);
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setString(1, term);
             preparedStatement.setInt(2, year);
             preparedStatement.setBoolean(3, allow_anonymous);
@@ -35,10 +33,8 @@ public class CourseDAO extends TemplateDAO {
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
-        } finally {
-            Cleanup.enableAutoCommit(connection);
         }
+        return false;
     }
 
     /**
@@ -54,8 +50,7 @@ public class CourseDAO extends TemplateDAO {
     public boolean getAnonymousCourse(String term, int year, int courseID) {
         String sqlstatement = "SELECT allow_anonymous FROM ActiveCourse WHERE term = ? and year = ? and courseID = ?";
         ResultSet resultSet;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             preparedStatement.setString(1, term);
             preparedStatement.setInt(2, year);
             preparedStatement.setInt(3, courseID);
@@ -63,11 +58,10 @@ public class CourseDAO extends TemplateDAO {
             if(resultSet.next()){
                 return resultSet.getBoolean("allow_anonymous");
             }
-            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     /**
@@ -81,8 +75,7 @@ public class CourseDAO extends TemplateDAO {
         String sqlstatement = "SELECT courseID, name FROM Course";
         int courseID = 0;
         String name = "";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 courseID = resultSet.getInt("courseID");
@@ -93,7 +86,9 @@ public class CourseDAO extends TemplateDAO {
             return courses;
         }catch (SQLException sq){
             sq.printStackTrace();
-            return courses;
+        }finally {
+            Cleanup.closeResultSet(resultSet);
         }
+        return courses;
     }
 }
