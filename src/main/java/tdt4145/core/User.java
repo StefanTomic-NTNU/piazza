@@ -1,17 +1,21 @@
 package tdt4145.core;
 
+/**
+ * User class that stores the userID, name, email, and instructor_privileges
+ */
+
 public class User {
 
     private final int userID;
     private final String name;
     private final String email;
-    private final boolean instructor_priviligies;
+    private final boolean instructor_priviliges;
 
     public User(int userID, String name, String email, boolean instructor_priviligies) {
         this.userID = userID;
         this.name = name;
         this.email = email;
-        this.instructor_priviligies = instructor_priviligies;
+        this.instructor_priviliges= instructor_priviligies;
     }
 
     public int getUserID() {
@@ -26,7 +30,7 @@ public class User {
         return email;
     }
 
-    public boolean getInstructorPriviligies() {
-        return instructor_priviligies;
+    public boolean isInstructor_priviliges() {
+        return instructor_priviliges;
     }
 }

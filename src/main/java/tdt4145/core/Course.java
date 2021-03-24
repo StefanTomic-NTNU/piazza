@@ -1,5 +1,8 @@
 package tdt4145.core;
 
+/**
+ * Class course that stores the courseID and the name
+ */
 public class Course {
 
     public int courseID;
