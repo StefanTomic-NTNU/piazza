@@ -8,7 +8,13 @@ The TDT4145-piazza project is a single module - monolithic application based on 
 It uses a command line interface for navigation.
 The motivation for this project is learning and demonstrating the use and handling of a database in an application.
 
-This project uses gradle. 
+
+#### Languages, Frameworks, libraries and dependencies
+* Java (version 15.0.2)
+* MySQL syntax (version 8.0)
+* Gradle for building and dependency management.
+* JDBC for database connection.
+
 
 #### Starting the application
 
