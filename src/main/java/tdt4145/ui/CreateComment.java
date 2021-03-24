@@ -47,8 +47,6 @@ public class CreateComment {
         try {
             ThreadDAO dao = new ThreadDAO();
             int threadID = dao.CreateThread(text, loggedInUserID, false);
-            System.out.println(threadID);
-            System.out.println(loggedInUserID);
             dao.CreateComment(threadID, parentID);
         } catch (SQLException sqlException) {
             System.out.println("Comment creation failed..");

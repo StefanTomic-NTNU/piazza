@@ -70,9 +70,6 @@ public class MainMenu implements Menu {
      * @param posts to be searched
      */
     public void searchPosts(List<Object> posts) {
-        System.out.println("Searching for posts is not yet implemented");
-
-        //TODO: implement searching
 
         System.out.print("Search: ");
         String search = new Scanner(System.in).nextLine();
