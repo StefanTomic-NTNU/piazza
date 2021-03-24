@@ -278,10 +278,10 @@ public class UserDAO extends TemplateDAO {
 
     public ArrayList<UserOverview> overviewStatistics() {
         String sqlstatement = "SELECT distinct User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
-                "FROM" +
-                "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID" +
-                "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID" +
-                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID" +
+                " FROM " +
+                "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID " +
+                "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID " +
+                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID " +
                 "GROUP BY User.name ORDER BY nbreadpost DESC";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();

@@ -27,4 +27,9 @@ public class UserOverview {
     public int getNbreadposts() {
         return nbreadposts;
     }
+
+    @Override
+    public String toString() {
+        return name + "\t" + nbreadposts + "\t" + nbpost;
+    }
 }
