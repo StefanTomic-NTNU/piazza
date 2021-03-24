@@ -46,7 +46,7 @@ public class MainMenu implements Menu {
         System.out.println("1 - List all posts");
         System.out.println("2 - Search for posts");
         System.out.println("3 - Open post");
-        System.out.println("4 - Create new post");
+        System.out.println("4 - Create new thread");
         System.out.println("5 - Quit");
         System.out.print("Enter number: ");
 
@@ -91,8 +91,10 @@ public class MainMenu implements Menu {
 
         try {
             ThreadDAO dao = new ThreadDAO();
-            //dao.search(search);
-            //print result
+            List<Integer> result = dao.searchByKeyword(search);
+            for (Integer integer : result) {
+                System.out.println(integer);
+            }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }

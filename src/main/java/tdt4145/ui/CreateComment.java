@@ -13,16 +13,17 @@ import java.util.Scanner;
  */
 public class CreateComment {
 
-    public static boolean create(int loggedInUserID) {
-        String text = "";
+    public static boolean create(int parentID, int loggedInUserID) {
+        String text;
         List<String> textList = new ArrayList<>();
-        int parentID = -1;
+        // int parentID = -1;
         Boolean allowAnonymous = false;
         Boolean anonymous = false;
         Scanner textInput = new Scanner(System.in);
         Scanner parentIDInput = new Scanner(System.in);
         Scanner anonymousInput = new Scanner(System.in);
 
+        /*
         while (parentID < 0) {
             System.out.print("Enter parent thread id: ");
             try {
@@ -32,8 +33,10 @@ public class CreateComment {
                 break;
             }
         }
+        */
 
-        System.out.print(" -- COMMENT CREATION --");
+        System.out.println(" -- COMMENT CREATION --");
+        System.out.println();
         System.out.println("Lines will keep being added until you enter ':wq' by itself");
         System.out.println("You can undo previously added line by writing only 'undo_line'");
 
