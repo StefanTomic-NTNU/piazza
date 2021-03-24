@@ -1,5 +1,8 @@
 package tdt4145.core;
 
+/**
+ * Tag class that stores tagid and label
+ */
 public class Tag {
 
     private final int tagID;

@@ -33,8 +33,6 @@ public abstract class DBConn {
         }
         System.out.println("Driver loaded");
 
-        //Connection connection = DriverManager.getConnection
-        //        ("jdbc:mysql://localhost/databpros", "root", "Lamarchequidurelong41");
 
         connection = DriverManager.getConnection
                 ("jdbc:mysql://localhost/piazzaproject", "admin", "mypass");
