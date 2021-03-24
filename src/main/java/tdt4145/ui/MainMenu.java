@@ -66,8 +66,8 @@ public class MainMenu implements Menu {
 
 
     /**
+     *  Prints a list of the posts that matches the search.
      * @param posts to be searched
-     * @return a list of the posts that matches the search.
      */
     public void searchPosts(List<Object> posts) {
         System.out.println("Searching for posts is not yet implemented");

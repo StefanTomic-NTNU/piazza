@@ -1,7 +1,18 @@
+
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'application'
+}
+
 group 'gr148'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'application' // implicitly includes the java plugin
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -24,10 +35,14 @@ dependencies {
 
 }
 
+run {
+    standardInput = System.in
+}
+
 test {
     useJUnitPlatform()
 }
 
 
 
-mainClassName = 'src/main/java/tdt4145/ui/Main.java'
+mainClassName = 'tdt4145.ui.Main'
