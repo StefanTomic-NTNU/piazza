@@ -1,9 +1,16 @@
-
-plugins {
-    id 'java'
-    id 'java-library'
-    id 'application'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+    }
 }
+
+
+apply plugin: 'application'
+mainClassName = 'tdt4145.ui.Main'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'gr148'
 version '1.0-SNAPSHOT'
@@ -44,5 +51,3 @@ test {
 }
 
 
-
-mainClassName = 'tdt4145.ui.Main'

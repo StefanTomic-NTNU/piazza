@@ -35,7 +35,7 @@ public class CreateUser {
             System.out.print("Enter username: ");
             username = usernameInput.nextLine();
             if (username.length() < 5) {
-                System.out.println("Username too short");
+                System.out.println("Username too short. Please try again.");
             } else {
                 break;
             }
@@ -58,7 +58,7 @@ public class CreateUser {
             System.out.print("Enter password: ");
             password = passwordInput.nextLine();
             if (password.length() < 5) {
-                System.out.println("Username too short");
+                System.out.println("Password too short. Please try again.");
             } else {
                 break;
             }
@@ -75,7 +75,7 @@ public class CreateUser {
                 System.out.println("please try again");
             }
             else if(returnvalue == -2){
-                System.out.println("email allready registered please login or use another email");
+                System.out.println("email already registered please login or use another email");
             }else {
                 System.out.println("User '" + username + "' successfully created!");
                 return true;
