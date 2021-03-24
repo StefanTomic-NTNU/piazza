@@ -9,12 +9,6 @@ import java.util.ArrayList;
 
 public class ThreadDAO extends TemplateDAO {
     private final Connection connection;
-    //TODO create get all Courses int table Course
-    //TODO maybe create a method for instructor priviligies
-    //TODO create search function
-    //TODO get statistics on user if user has priviligies, created post, watched posts
-    //The output is “user name, number of posts read, number of posts created
-    // The result should also include users which have not read or created posts.
 
     public ThreadDAO() throws SQLException {
         this.connection = super.getConnection();
@@ -169,6 +163,28 @@ public class ThreadDAO extends TemplateDAO {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             return -1;
+        }
+    }
+    //check sql
+    public ArrayList<Integer> searchpost(String keyword){
+        String sqlstatement = "SELECT Post.threadID FROM Post, Thread WHERE " +
+                "Thread.threadID = Post.threadID AND Thread.text LIKE %?% AND Post.title LIKE %?%";
+        ResultSet resultSet;
+        int id = 0;
+        ArrayList<Integer> ids = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
+            preparedStatement.setString(1, keyword);
+            preparedStatement.setString(2, keyword);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                id = resultSet.getInt("threadID");
+                ids.add(id);
+            }
+            return ids;
+        }catch (SQLException sq){
+            sq.printStackTrace();
+            return ids;
         }
     }
 
