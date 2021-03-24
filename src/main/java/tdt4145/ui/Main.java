@@ -10,7 +10,6 @@ import java.util.Scanner;
  */
 public class Main {
 
-
     /**
      * Exits the program
      */
@@ -21,7 +20,6 @@ public class Main {
 
     }
 
-
     public static void main(String[] args) {
 
         WelcomeMenu welcomeMenu = new WelcomeMenu();
@@ -30,7 +28,6 @@ public class Main {
 
         Database.setNewDatabase(null, null);
         // MainMenu.initCourse();
-
 
         {
             System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
@@ -50,8 +47,6 @@ public class Main {
             }
         }
 
-
-
         // Login and user creation
         int loggedInUserID = -1;
         while (loggedInUserID < 0) {
@@ -61,7 +56,6 @@ public class Main {
                 case 5 -> exit();
             }
         }
-
 
         // int loggedInUserID = 1;
         // main program loop
@@ -95,8 +89,6 @@ public class Main {
                 case 4 -> mainMenu.createPost(loggedInUserID);
                 case 5 -> exit();
             }
-
-
         }
     }
 }

@@ -3,15 +3,9 @@ package tdt4145.core;
 import java.sql.*;
 import java.util.logging.Level;
 
-/**
- * Just a class with a bunch of convenient methods used in the DAOs
- *
- * @author Patrick Øivind Helvik Legendre
- */
 public class Cleanup {
 
     static void enableAutoCommit(Connection connection) {
-
         if (connection != null) {
             try {
                 connection.setAutoCommit(true);
@@ -22,7 +16,6 @@ public class Cleanup {
     }
 
     static void performRollback(Connection connection) {
-
         if (connection != null) {
             try {
                 connection.rollback();
@@ -30,11 +23,9 @@ public class Cleanup {
                 java.util.logging.Logger.getLogger(Cleanup.class.getName()).log(Level.SEVERE, "Rollback failed", e);
             }
         }
-
     }
 
     static void performRollback(Connection connection, Savepoint savepoint) {
-
         if (connection != null) {
             try {
                 connection.rollback(savepoint);
@@ -42,7 +33,6 @@ public class Cleanup {
                 java.util.logging.Logger.getLogger(Cleanup.class.getName()).log(Level.SEVERE, "Rollback failed", e);
             }
         }
-
     }
 
     static void closeResultSet(ResultSet resultSet) {
@@ -74,5 +64,4 @@ public class Cleanup {
             }
         }
     }
-
 }

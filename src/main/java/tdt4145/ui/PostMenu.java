@@ -51,21 +51,18 @@ public class PostMenu implements Menu {
         System.out.println("Commenting on a Post is not yet implemented");
         //TODO: implement commenting on posts
 
-
         String text;
         //TODO: get info from current Post and User
         String coursename;
         int userID;
         boolean anonymous;
         Scanner textInput = new Scanner(System.in);
-
         int threadID;
         int postID = selection;
 
         // Input Text
         System.out.print("Enter comment: ");
         text = textInput.nextLine();
-
 
         try {
             ThreadDAO dao = new ThreadDAO();
@@ -75,7 +72,6 @@ public class PostMenu implements Menu {
             sqlException.printStackTrace();
         }
     }
-
 
     /**
      * Adds a like to the database from the user to a given post

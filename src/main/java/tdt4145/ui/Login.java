@@ -1,6 +1,5 @@
 package tdt4145.ui;
 
-import tdt4145.core.User;
 import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
@@ -38,6 +37,7 @@ public class Login {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         System.out.println("Email or password is incorrect");
         return -1;
     }

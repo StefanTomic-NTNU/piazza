@@ -1,7 +1,6 @@
 package tdt4145.ui;
 
 
-import tdt4145.core.FolderDAO;
 import tdt4145.core.ThreadDAO;
 
 import java.sql.SQLException;
@@ -12,11 +11,9 @@ import java.util.Scanner;
 /**
  * Creates Comment and corresponding Thread
  */
-
 public class CreateComment {
 
     public static boolean create(int loggedInUserID) {
-
         String text = "";
         List<String> textList = new ArrayList<>();
         int parentID = -1;
@@ -25,9 +22,6 @@ public class CreateComment {
         Scanner textInput = new Scanner(System.in);
         Scanner parentIDInput = new Scanner(System.in);
         Scanner anonymousInput = new Scanner(System.in);
-
-
-        /***************************************************/
 
         while (parentID < 0) {
             System.out.print("Enter parent thread id: ");
@@ -39,10 +33,10 @@ public class CreateComment {
             }
         }
 
-
         System.out.print(" -- COMMENT CREATION --");
         System.out.println("Lines will keep being added until you enter ':wq' by itself");
         System.out.println("You can undo previously added line by writing only 'undo_line'");
+
         while (true) {
             text = textInput.nextLine();
             if (text.equals(":wq")) {
@@ -53,8 +47,8 @@ public class CreateComment {
                 textList.add(text);
             }
         }
-        text = String.join("\n", textList);
 
+        text = String.join("\n", textList);
         System.out.println(" ");
 
         try {
@@ -67,8 +61,7 @@ public class CreateComment {
             System.out.println("Comment creation failed..");
             sqlException.printStackTrace();
         }
+
         return true;
     }
-
-
 }

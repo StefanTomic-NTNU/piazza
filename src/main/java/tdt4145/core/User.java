@@ -29,5 +29,4 @@ public class User {
     public boolean getInstructorPriviligies() {
         return instructor_priviligies;
     }
-
 }

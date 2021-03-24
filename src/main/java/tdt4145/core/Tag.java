@@ -1,10 +1,11 @@
 package tdt4145.core;
 
 public class Tag {
-    private int tagID;
-    private String label;
 
-    public Tag(int tagID, String label){
+    private final int tagID;
+    private final String label;
+
+    public Tag(int tagID, String label) {
         this.tagID = tagID;
         this.label = label;
     }
@@ -16,5 +17,4 @@ public class Tag {
     public String getLabel() {
         return label;
     }
-
 }

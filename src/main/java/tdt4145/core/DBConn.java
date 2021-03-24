@@ -19,10 +19,7 @@ public abstract class DBConn {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
         System.out.println("Driver loaded");
-
 
         //Connection connection = DriverManager.getConnection
         //        ("jdbc:mysql://localhost/databpros", "root", "Lamarchequidurelong41");

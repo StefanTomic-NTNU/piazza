@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Password {
+
     // these constants must not be changed once we begin storing passwords in the database
     private static final int SALT_LENGTH = 16;
     private static final int ITERATIONS = 1000;
@@ -22,18 +23,13 @@ public class Password {
      * @return byte[] with hashed password
      */
     public static byte[] hash(char[] password, byte[] salt) {
-
         PBEKeySpec speccie = new PBEKeySpec(password, salt, ITERATIONS, KEY_LENGTH); // what we'll use to hash shit
         Arrays.fill(password, 'H'); // example used MIN_VALUE
         password = null; // like clearPassword() does, making garbage collection thrash it if it looks in this method immediately
         // a lil' bit excessive tho
-
         try {
-
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512"); // originally SHA1 but we want it higher don't we
-
             return factory.generateSecret(speccie).getEncoded();
-
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) { // no need to handle them differently, this WILL happen BEFORE the array is filled
             e.printStackTrace();
             // quite the fatal error if it actually happens...
@@ -52,18 +48,13 @@ public class Password {
      * @return the byte[] with the tasteless salt, NULL in case of failure
      */
     public static byte[] getSalt() {
-
         byte[] theSalt = null;
 
         try {
-
             //SecureRandom rng = SecureRandom.getInstance("NativePRNG");
             SecureRandom rng = SecureRandom.getInstance("SHA1PRNG"); //is an alternative - I presume the above is present on all OSes supporting Java?
-
             theSalt = new byte[SALT_LENGTH]; // if that's normal salt length
-
             rng.nextBytes(theSalt); // filling it with sparkling random crystals
-
         } catch (NoSuchAlgorithmException nsa) {
             nsa.printStackTrace();
         }
@@ -81,21 +72,16 @@ public class Password {
      * @return Whether this is the same password or not
      */
     public static boolean verify(char[] input, byte[] actual, byte[] salt) {
-
         byte[] hashedInput = hash(input, salt);
         Arrays.fill(input, 'C');
 
         for (int i = 0; i < Objects.requireNonNull(hashedInput).length; i++) {
-
             if (actual[i] != hashedInput[i]) {
                 return false; // WAS NOT THE SAME
             }
-
         }
 
         return true; // was the same
         //return Arrays.equals(hashedInput, actual); maybe better alternative
     }
-
-
 }
