@@ -88,19 +88,25 @@ public class MainMenu implements Menu {
         }
     }
 
+    /**
+     * Prints per user post statistics to console
+     * the columns consist of:
+     * USERNAME, NR POSTS VIEWED, NR POSTS WRITTEN
+     */
     public void viewStatistics() {
         try {
             UserDAO userDAO = new UserDAO();
             ArrayList<UserOverview> statistics = userDAO.overviewStatistics();
             int length = statistics.size();
             Object[][] table = new String[length+1][];
-            table[0] = new String[] {"USERNAME", "NR. VIEWED", "NR. CREATED"};
+            table[0] = new String[] {"USERNAME", "NR. VIEWED", "NR. WRITTEN"};
             for (int i=0; i < length; i++) {
                 UserOverview ow = statistics.get(i);
                 table[i+1] = new String[] {ow.getName(),
                         Integer.valueOf(ow.getNbreadposts()).toString(),
                         Integer.valueOf(ow.getNbpost()).toString()};
             }
+            System.out.println("-------- PER USER POST STATISTICS --------");
             for (Object[] row : table) {
                 System.out.format("%-15s%-15s%-15s%n", row);
             }
