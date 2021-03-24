@@ -9,7 +9,6 @@ import java.util.ArrayList;
 /**
  * Dao class that addresses the thread, post and comment table
  */
-
 public class ThreadDAO extends TemplateDAO {
 
     private final Connection connection;
@@ -228,25 +227,26 @@ public class ThreadDAO extends TemplateDAO {
      * @param keyword as a string input by the user
      * @return an arraylist of integers that stores all the post ids from the db
      */
-    public ArrayList<Integer> searchpost(String keyword) {
-        String sqlstatement = "SELECT Post.threadID FROM Post, Thread WHERE " +
-                "Thread.threadID = Post.threadID AND Thread.text LIKE %?% AND Post.title LIKE %?%";
+    public ArrayList<Integer> searchByKeyword(String keyword){
+        String sqlstatement = "SELECT DISTINCT Thread.threadID FROM Post, Thread WHERE " +
+                "((Post.threadID = Thread.threadID AND Post.title LIKE ?) OR (Thread.text LIKE ?))";
+
         ResultSet resultSet;
         int id = 0;
         ArrayList<Integer> ids = new ArrayList<>();
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement);
-            preparedStatement.setString(1, keyword);
-            preparedStatement.setString(2, keyword);
+            preparedStatement.setString(1, "%" + keyword + "%");
+            preparedStatement.setString(2, "%" + keyword + "%");
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getInt("threadID");
                 ids.add(id);
             }
-            return ids;
         } catch (SQLException sq) {
             sq.printStackTrace();
+        } finally {
             return ids;
         }
     }

@@ -47,30 +47,8 @@ public class PostMenu implements Menu {
     }
 
 
-    public void comment(int selection) {
-        System.out.println("Commenting on a Post is not yet implemented");
-        //TODO: implement commenting on posts
-
-        String text;
-        //TODO: get info from current Post and User
-        String coursename;
-        int userID;
-        boolean anonymous;
-        Scanner textInput = new Scanner(System.in);
-        int threadID;
-        int postID = selection;
-
-        // Input Text
-        System.out.print("Enter comment: ");
-        text = textInput.nextLine();
-
-        try {
-            ThreadDAO dao = new ThreadDAO();
-            //dao.CreateThread(text, coursename, userID, anonymous);
-            //dao.CreateComment(threadID, postID);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+    public void comment(int selection, int loggedInUserID) {
+        CreateComment.create(selection, loggedInUserID);
     }
 
     /**
