@@ -1,7 +1,10 @@
-INSERT INTO User (userID, name, email, password, instructor_privileges)
-VALUES ('1', 'professor1', 'professor1@ntnu.no', 'profpass', b'1'),
-       ('2', 'student2', 'student2@ntnu.no', 'studpass', b'0'),
-       ('3', 'student3', 'student3@ntnu.no', 'studpass', b'0');
+INSERT INTO User (userID, name, email, password, salt, instructor_privileges)
+VALUES ('1', 'professor', 'professor@ntnu.no',
+        UNHEX('8510843722F5345181403D131FC9DCF04C83C7BB5E7B7E3732AB7C34FEB4B3EB'),
+        UNHEX('070DF3A40AC0958C1EB63362C2BCD4CF'), b'1'),
+       ('2', 'student', 'student@ntnu.no',
+        UNHEX('D96B0D45AB62232D5AC7BAD77884605F81D275A9B0B299CF222E6654A486C07B'),
+        UNHEX('9AA7C77496F60697187A7B2DC6DBE964'), b'0');
 
 INSERT INTO Course
 VALUES ('1', 'Databaser'),
@@ -13,8 +16,7 @@ VALUES ('Vaar', '2021', b'1', '1'),
 
 INSERT INTO CourseParticipation
 VALUES ('2', '1'),
-       ('2', '2'),
-       ('3', '1');
+       ('2', '2');
 
 INSERT INTO Folder
 VALUES ('1', 'Exam'),
