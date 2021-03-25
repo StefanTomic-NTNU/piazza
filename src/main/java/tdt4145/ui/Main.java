@@ -1,7 +1,7 @@
 package tdt4145.ui;
 
+import tdt4145.core.DAOs.UserDAO;
 import tdt4145.core.Database;
-import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -48,8 +48,8 @@ public class Main {
         int loggedInUserID = -1;
         while (loggedInUserID < 0) {
             switch (mainMenu.welcomeMenu()) {
-                case 1 -> loggedInUserID = UserController.login();
-                case 2 -> UserController.create();
+                case 1 -> loggedInUserID = UserHandler.login();
+                case 2 -> UserHandler.create();
                 case 5 -> exit();
             }
         }

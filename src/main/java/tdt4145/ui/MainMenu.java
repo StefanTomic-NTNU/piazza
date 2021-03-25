@@ -1,7 +1,7 @@
 package tdt4145.ui;
 
-import tdt4145.core.ThreadDAO;
-import tdt4145.core.UserDAO;
+import tdt4145.core.DAOs.ThreadDAO;
+import tdt4145.core.DAOs.UserDAO;
 import tdt4145.core.UserOverview;
 
 import java.sql.SQLException;
@@ -62,7 +62,7 @@ public class MainMenu {
      * Creates a new post and adds it to the database.
      */
     public void createPost(int loggedInUserID) {
-        ThreadController.post(loggedInUserID);
+        ThreadHandler.post(loggedInUserID);
     }
 
     /**

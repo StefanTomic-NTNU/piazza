@@ -1,8 +1,8 @@
 package tdt4145.ui;
 
-import tdt4145.core.FolderDAO;
+import tdt4145.core.DAOs.FolderDAO;
+import tdt4145.core.DAOs.ThreadDAO;
 import tdt4145.core.Tag;
-import tdt4145.core.ThreadDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * Creates Posts and Comments and a corresponding Thread.
  */
-public class ThreadController {
+public class ThreadHandler {
 
     /**
      * Creates a post
