@@ -1,6 +1,5 @@
 package tdt4145.core.DAOs;
 
-import tdt4145.core.Password;
 import tdt4145.core.UserOverview;
 
 import java.sql.Connection;
