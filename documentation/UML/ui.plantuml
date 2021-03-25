@@ -1,7 +1,4 @@
 @startuml
-
-title __UI's Class Diagram__\n
-
   namespace tdt4145.ui {
     class tdt4145.ui.Main {
         {static} + exit()
