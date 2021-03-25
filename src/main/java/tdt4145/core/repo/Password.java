@@ -1,4 +1,4 @@
-package tdt4145.core.model;
+package tdt4145.core.repo;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

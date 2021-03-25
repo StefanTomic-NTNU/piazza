@@ -1,7 +1,6 @@
 package tdt4145.core.repo;
 
 import tdt4145.core.model.User;
-import tdt4145.core.model.Password;
 import tdt4145.core.model.UserOverview;
 
 import java.sql.Connection;
