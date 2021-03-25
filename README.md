@@ -18,9 +18,11 @@ The motivation for this project is learning and demonstrating the use and handli
 
 #### Starting the application
 
-The application can be run using the command `gradlew run` in the root folder.
+In order for the application to run properly one has to be connected to NTNU's network. This can be done using VPN.
 
+The application can be run using the command `gradlew run` in the root folder. 
 Alternatively you may run the main() method in the [**Main**](src/main/java/tdt4145/ui/Main.java) class.
+
 
 #### Documentation
 Diagrams can be found [here](documentation/UML).
