@@ -51,7 +51,7 @@ public class ThreadDAO extends TemplateDAO {
         return -1;
     }
 
-    public boolean check_anonymous(int threadID) {
+    public boolean checkAnonymous(int threadID) {
         String sqlstatement = "SELECT anonymous FROM Thread WHERE threadID = ?";
         ResultSet resultSet = null;
 
@@ -142,8 +142,8 @@ public class ThreadDAO extends TemplateDAO {
      * @return a status for the insert with a boolean.
      */
 
-    public boolean linkPostTags(int threadID, int tagID) {
-        String sqlstatement2 = "INSERT INTO PostTags(threadID, tagID) VALUES(?, ?)";
+    public boolean linkPostTag(int threadID, int tagID) {
+        String sqlstatement2 = "INSERT INTO PostTag(threadID, tagID) VALUES(?, ?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement2)) {
             preparedStatement.setInt(1, threadID);
@@ -163,7 +163,7 @@ public class ThreadDAO extends TemplateDAO {
 
     public ArrayList<Tag> getTags() {
         ArrayList<Tag> tags = new ArrayList<Tag>();
-        String sqlstatement = "SELECT tagID, label FROM Tags";
+        String sqlstatement = "SELECT tagID, label FROM Tag";
         ResultSet resultSet = null;
         int tagid = 0;
         String label = "";
@@ -191,7 +191,7 @@ public class ThreadDAO extends TemplateDAO {
      */
 
     public int getTagID(String label) {
-        String sqlstatement = "SELECT tagID FROM Tags WHERE label = ?";
+        String sqlstatement = "SELECT tagID FROM Tag WHERE label = ?";
         ResultSet resultSet = null;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){

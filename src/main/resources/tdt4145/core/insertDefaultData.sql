@@ -32,6 +32,6 @@ VALUES (1, 1, 'Vaar', '2021'),
 INSERT INTO SubFolder
 VALUES (4, 3);
 
-INSERT INTO Tags(label)
+INSERT INTO Tag(label)
 VALUES ('Question'),
        ('Information');

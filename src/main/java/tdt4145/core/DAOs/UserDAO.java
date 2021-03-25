@@ -186,9 +186,9 @@ public class UserDAO extends TemplateDAO {
      */
 
     public boolean viewedPost(int userID, int threadID) {
-        String sqlstatement = "SELECT times_viewed From ViewedPosts WHERE userID = ? and threadID = ?";
-        String sqlstatement2 = "UPDATE ViewedPosts SET times_viewed = ? WHERE userID = ? and threadID = ?";
-        String sqlstatement3 = "INSERT INTO ViewedPosts(userID, threadID) VALUES(?,?)";
+        String sqlstatement = "SELECT times_viewed From ViewedPost WHERE userID = ? and threadID = ?";
+        String sqlstatement2 = "UPDATE ViewedPost SET times_viewed = ? WHERE userID = ? and threadID = ?";
+        String sqlstatement3 = "INSERT INTO ViewedPost(userID, threadID) VALUES(?,?)";
         ResultSet resultSet = null;
         int times_viewed = -1;
 
@@ -235,8 +235,8 @@ public class UserDAO extends TemplateDAO {
      * @return a status for the insert
      */
 
-    public boolean likethread(int userID, int threadID) {
-        String sqlstatement = "INSERT INTO likes(userID, threadID) VALUES(?,?)";
+    public boolean likeThread(int userID, int threadID) {
+        String sqlstatement = "INSERT INTO LikesThread(userID, threadID) VALUES(?,?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setInt(1, userID);

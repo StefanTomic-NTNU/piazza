@@ -128,7 +128,7 @@ public class ThreadHandler {
             int threadID = dao.CreateThread(text, loggedInUserID, false);
             dao.CreatePost(title, 0, folderID, threadID);
             for (Integer chosenTag : tagList) {
-                dao.linkPostTags(threadID, (chosenTag));
+                dao.linkPostTag(threadID, (chosenTag));
             }
             System.out.println("Post " + title + " successfully created!");
             return true;
