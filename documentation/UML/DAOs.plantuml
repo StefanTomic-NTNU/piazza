@@ -1,0 +1,99 @@
+@startuml
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.Cleanup {
+          {static} ~ closePreparedStatement()
+          {static} ~ closeResultSet()
+          {static} ~ closeStatement()
+          {static} ~ enableAutoCommit()
+          {static} ~ performRollback()
+          {static} ~ performRollback()
+      }
+    }
+  }
+  
+
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.CourseDAO {
+          - connection : Connection
+          + CourseDAO()
+          + createActiveCourse()
+          + getAnonymousCourse()
+          + getCourses()
+      }
+    }
+  }
+  
+
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.FolderDAO {
+          - connection : Connection
+          + FolderDAO()
+          + createFolder()
+          + createRootFolder()
+          + createSubFolder()
+          + getFolderID()
+          + getTopFolder()
+      }
+    }
+  }
+  
+
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.TemplateDAO {
+          - connection : Connection
+          + TemplateDAO()
+          + close()
+          ~ getConnection()
+      }
+    }
+  }
+  
+
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.ThreadDAO {
+          - connection : Connection
+          + CreateComment()
+          + CreatePost()
+          + CreateThread()
+          + ThreadDAO()
+          + check_anonymous()
+          + getTagID()
+          + getTags()
+          + getTopThread()
+          + linkPostTags()
+          + searchByKeyword()
+      }
+    }
+  }
+  
+
+  namespace tdt4145.core {
+    namespace DAOs {
+      class tdt4145.core.DAOs.UserDAO {
+          - connection : Connection
+          + UserDAO()
+          + addUser()
+          + getInstructor()
+          + isPasswordCorrect()
+          + likethread()
+          + logIn()
+          + logOut()
+          + overviewStatistics()
+          + setPassword()
+          + viewedPost()
+      }
+    }
+  }
+  
+
+  tdt4145.core.DAOs.CourseDAO -up-|> tdt4145.core.DAOs.TemplateDAO
+  tdt4145.core.DAOs.FolderDAO -up-|> tdt4145.core.DAOs.TemplateDAO
+  tdt4145.core.DAOs.TemplateDAO .up.|> java.lang.AutoCloseable
+  tdt4145.core.DAOs.ThreadDAO -up-|> tdt4145.core.DAOs.TemplateDAO
+  tdt4145.core.DAOs.UserDAO -up-|> tdt4145.core.DAOs.TemplateDAO
+@enduml
