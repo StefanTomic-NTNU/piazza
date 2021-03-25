@@ -71,7 +71,7 @@ public class Main {
             System.out.println("1 - List all posts");
             System.out.println("2 - Search for posts");
             System.out.println("3 - Open post");
-            System.out.println("4 - Create new thread");
+            System.out.println("4 - Create new post");
             System.out.println("5 - Quit");
             if (instructor) {
                 System.out.println("6 - View statistics");
