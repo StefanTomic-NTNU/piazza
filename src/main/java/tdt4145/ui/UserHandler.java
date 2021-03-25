@@ -1,7 +1,7 @@
 package tdt4145.ui;
 
-import tdt4145.core.DAOs.UserDAO;
-import tdt4145.core.User;
+import tdt4145.core.repo.UserDAO;
+import tdt4145.core.model.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;

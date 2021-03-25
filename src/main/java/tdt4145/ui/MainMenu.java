@@ -1,8 +1,8 @@
 package tdt4145.ui;
 
-import tdt4145.core.DAOs.ThreadDAO;
-import tdt4145.core.DAOs.UserDAO;
-import tdt4145.core.UserOverview;
+import tdt4145.core.repo.ThreadDAO;
+import tdt4145.core.repo.UserDAO;
+import tdt4145.core.model.UserOverview;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

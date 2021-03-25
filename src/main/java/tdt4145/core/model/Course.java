@@ -1,4 +1,4 @@
-package tdt4145.core;
+package tdt4145.core.model;
 
 /**
  * Class course that stores the courseID and the name

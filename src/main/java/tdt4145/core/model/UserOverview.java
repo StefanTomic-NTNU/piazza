@@ -1,4 +1,4 @@
-package tdt4145.core;
+package tdt4145.core.model;
 
 /**
  * Class that stores the name and number of post created (nbpost) and number of post read by a user (nbreadposts)

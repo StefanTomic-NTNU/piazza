@@ -1,7 +1,7 @@
 @startuml
   namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.Cleanup {
+        class tdt4145.core.repo.Cleanup {
             {static} ~ closePreparedStatement()
             {static} ~ closeResultSet()
             {static} ~ closeStatement()
@@ -15,7 +15,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.CourseDAO {
+        class tdt4145.core.repo.CourseDAO {
             - connection : Connection
             + CourseDAO()
             + createActiveCourse()
@@ -28,7 +28,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.FolderDAO {
+        class tdt4145.core.repo.FolderDAO {
             - connection : Connection
             + FolderDAO()
             + createFolder()
@@ -43,7 +43,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.Password {
+        class tdt4145.core.model.Password {
             {static} - ITERATIONS : int
             {static} - KEY_LENGTH : int
             {static} - SALT_LENGTH : int
@@ -57,7 +57,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.TemplateDAO {
+        class tdt4145.core.repo.TemplateDAO {
             - connection : Connection
             + TemplateDAO()
             + close()
@@ -69,7 +69,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.ThreadDAO {
+        class tdt4145.core.repo.ThreadDAO {
             - connection : Connection
             + CreateComment()
             + CreatePost()
@@ -88,7 +88,7 @@
 
     namespace tdt4145.core {
       namespace DAOs {
-        class tdt4145.core.DAOs.UserDAO {
+        class tdt4145.core.repo.UserDAO {
             - connection : Connection
             + UserDAO()
             + addUser()
@@ -105,9 +105,9 @@
     }
 
 
-    tdt4145.core.DAOs.CourseDAO -up-|> tdt4145.core.DAOs.TemplateDAO
-    tdt4145.core.DAOs.FolderDAO -up-|> tdt4145.core.DAOs.TemplateDAO
-    tdt4145.core.DAOs.TemplateDAO .up.|> java.lang.AutoCloseable
-    tdt4145.core.DAOs.ThreadDAO -up-|> tdt4145.core.DAOs.TemplateDAO
-    tdt4145.core.DAOs.UserDAO -up-|> tdt4145.core.DAOs.TemplateDAO
+    tdt4145.core.repo.CourseDAO -up-|> tdt4145.core.repo.TemplateDAO
+    tdt4145.core.repo.FolderDAO -up-|> tdt4145.core.repo.TemplateDAO
+    tdt4145.core.repo.TemplateDAO .up.|> java.lang.AutoCloseable
+    tdt4145.core.repo.ThreadDAO -up-|> tdt4145.core.repo.TemplateDAO
+    tdt4145.core.repo.UserDAO -up-|> tdt4145.core.repo.TemplateDAO
 @enduml
