@@ -4,7 +4,6 @@ import tdt4145.core.Database;
 import tdt4145.core.UserDAO;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,10 +15,8 @@ public class Main {
      * Exits the program
      */
     public static void exit() {
-
         System.out.println("Goodbye");
         System.exit(0);
-
     }
 
     public static void main(String[] args) {
@@ -59,8 +56,8 @@ public class Main {
 
         boolean instructor = false;
         try {
-             UserDAO userDAO = new UserDAO();
-             instructor = userDAO.getInstructor(loggedInUserID);
+            UserDAO userDAO = new UserDAO();
+            instructor = userDAO.getInstructor(loggedInUserID);
         } catch (SQLException sq) {
             sq.printStackTrace();
         }
@@ -105,7 +102,11 @@ public class Main {
                 }
                 case 4 -> mainMenu.createPost(loggedInUserID);
                 case 5 -> exit();
-                case 6 -> { if (instructor) { mainMenu.viewStatistics(); } }
+                case 6 -> {
+                    if (instructor) {
+                        mainMenu.viewStatistics();
+                    }
+                }
             }
         }
     }

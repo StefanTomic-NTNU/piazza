@@ -15,6 +15,12 @@ import java.util.Scanner;
  */
 public class ThreadController {
 
+    /**
+     * Creates a post
+     *
+     * @param loggedInUserID current logged in user
+     * @return true if the operation is successful
+     */
     public static boolean post(int loggedInUserID) {
         String title = "";
         String text = "";
@@ -43,7 +49,8 @@ public class ThreadController {
                 if (folderID > 0) break;
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
-            } System.out.println("Folder not found. Try again.");
+            }
+            System.out.println("Folder not found. Try again.");
         }
 
         // Write post title
@@ -123,16 +130,23 @@ public class ThreadController {
             for (Integer chosenTag : tagList) {
                 dao.linkPostTags(threadID, (chosenTag));
             }
-
             System.out.println("Post " + title + " successfully created!");
+            return true;
+
         } catch (SQLException sqlException) {
             System.out.println("Post creation failed..");
             sqlException.printStackTrace();
+            return false;
         }
-
-        return true;
     }
 
+    /**
+     * Creates a comment on a post
+     *
+     * @param parentID       id of the post
+     * @param loggedInUserID current logged in user
+     * @return true if the operation is successful
+     */
     public static boolean comment(int parentID, int loggedInUserID) {
         String text;
         List<String> textList = new ArrayList<>();
@@ -161,11 +175,11 @@ public class ThreadController {
             ThreadDAO dao = new ThreadDAO();
             int threadID = dao.CreateThread(text, loggedInUserID, false);
             dao.CreateComment(threadID, parentID);
+            return true;
         } catch (SQLException sqlException) {
             System.out.println("Comment creation failed..");
             sqlException.printStackTrace();
             return false;
         }
-        return true;
     }
 }

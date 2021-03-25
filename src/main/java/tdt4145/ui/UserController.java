@@ -70,13 +70,12 @@ public class UserController {
         try {
             UserDAO dao = new UserDAO();
             int returnvalue = dao.addUser(email, username, password.toCharArray());
-            if(returnvalue == -1){
+            if (returnvalue == -1) {
                 System.out.println("User creation failed..");
                 System.out.println("please try again");
-            }
-            else if(returnvalue == -2){
+            } else if (returnvalue == -2) {
                 System.out.println("email already registered please login or use another email");
-            }else {
+            } else {
                 System.out.println("User '" + username + "' successfully created!");
                 return true;
             }
@@ -93,7 +92,6 @@ public class UserController {
      *
      * @return True if login was successful, otherwise False.
      */
-
     public static int login() {
         String email;
         String password;
