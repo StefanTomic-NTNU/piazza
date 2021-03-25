@@ -1,7 +1,10 @@
 package tdt4145.ui;
 
 import tdt4145.core.Database;
+import tdt4145.core.UserDAO;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -24,8 +27,7 @@ public class Main {
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
-        Database.setNewDatabase("admin", "mypass");
-        // MainMenu.initCourse();
+        Database.setNewDatabase("stefandt_gr148", "beste_grp");
 
         {
             System.out.println("  _____  ____   _____  _  _    _  _  _    ____          ____                       ");
@@ -55,9 +57,29 @@ public class Main {
             }
         }
 
-        // int loggedInUserID = 1;
+        boolean instructor = false;
+        try {
+             UserDAO userDAO = new UserDAO();
+             instructor = userDAO.getInstructor(loggedInUserID);
+        } catch (SQLException sq) {
+            sq.printStackTrace();
+        }
+
         // main program loop
         while (loggedInUserID >= 0) {
+
+            System.out.println();
+            System.out.println("Select option");
+            System.out.println("-------------------------");
+            System.out.println("1 - List all posts");
+            System.out.println("2 - Search for posts");
+            System.out.println("3 - Open post");
+            System.out.println("4 - Create new thread");
+            System.out.println("5 - Quit");
+            if (instructor) {
+                System.out.println("6 - View statistics");
+            }
+            System.out.print("Enter number: ");
 
             // Main menu selection
             switch (mainMenu.menu()) {
@@ -83,6 +105,7 @@ public class Main {
                 }
                 case 4 -> mainMenu.createPost(loggedInUserID);
                 case 5 -> exit();
+                case 6 -> { if (instructor) { mainMenu.viewStatistics(); } }
             }
         }
     }

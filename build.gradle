@@ -1,7 +1,25 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+    }
+}
+
+
+apply plugin: 'application'
+mainClassName = 'tdt4145.ui.Main'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 group 'gr148'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'application' // implicitly includes the java plugin
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
 
 repositories {
     mavenCentral()
@@ -24,10 +42,12 @@ dependencies {
 
 }
 
+run {
+    standardInput = System.in
+}
+
 test {
     useJUnitPlatform()
 }
 
 
-
-mainClassName = 'src/main/java/tdt4145/ui/Main.java'
