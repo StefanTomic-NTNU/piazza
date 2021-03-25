@@ -2,6 +2,7 @@ package tdt4145.ui;
 
 import tdt4145.core.DAOs.UserDAO;
 import tdt4145.core.Database;
+import tdt4145.core.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -37,7 +38,7 @@ public class Main {
             System.out.println("Consequently you might find unimplemented functionalities when using this product.");
             System.out.print("Do you accept this? (y/n): ");
             String userDisclaimer = new Scanner(System.in).nextLine();
-            if (userDisclaimer.toLowerCase().equals("y")) {
+            if (userDisclaimer.equalsIgnoreCase("y")) {
                 System.out.println("Thank you, Enjoy.");
             } else {
                 exit();
@@ -45,25 +46,17 @@ public class Main {
         }
 
         // Login and user creation
-        int loggedInUserID = -1;
-        while (loggedInUserID < 0) {
+        User loggedInUser = null;
+        while (loggedInUser == null) {
             switch (mainMenu.welcomeMenu()) {
-                case 1 -> loggedInUserID = UserHandler.login();
+                case 1 -> loggedInUser = UserHandler.login();
                 case 2 -> UserHandler.create();
                 case 5 -> exit();
             }
         }
 
-        boolean instructor = false;
-        try {
-            UserDAO userDAO = new UserDAO();
-            instructor = userDAO.getInstructor(loggedInUserID);
-        } catch (SQLException sq) {
-            sq.printStackTrace();
-        }
-
         // main program loop
-        while (loggedInUserID >= 0) {
+        while (loggedInUser != null) {
 
             System.out.println();
             System.out.println("Select option");
@@ -73,7 +66,7 @@ public class Main {
             System.out.println("3 - Open post");
             System.out.println("4 - Create new post");
             System.out.println("5 - Quit");
-            if (instructor) {
+            if (loggedInUser.hasInstructor_privileges()) {
                 System.out.println("6 - View statistics");
             }
             System.out.print("Enter number: ");
@@ -93,17 +86,17 @@ public class Main {
                     while (postMenuStatus) {
                         switch (postMenu.menu()) {
                             case 1 -> postMenu.getInfo(selection);
-                            case 2 -> postMenu.comment(selection, loggedInUserID);
+                            case 2 -> postMenu.comment(selection, loggedInUser.getUserID());
                             case 3 -> postMenu.likePost(selection);
                             case 4 -> postMenuStatus = false;
                             case 5 -> exit();
                         }
                     }
                 }
-                case 4 -> mainMenu.createPost(loggedInUserID);
+                case 4 -> mainMenu.createPost(loggedInUser.getUserID());
                 case 5 -> exit();
                 case 6 -> {
-                    if (instructor) {
+                    if (loggedInUser.hasInstructor_privileges()) {
                         mainMenu.viewStatistics();
                     }
                 }

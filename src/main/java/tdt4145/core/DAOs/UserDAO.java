@@ -1,5 +1,6 @@
 package tdt4145.core.DAOs;
 
+import tdt4145.core.User;
 import tdt4145.core.UserOverview;
 
 import java.sql.Connection;
@@ -129,7 +130,7 @@ public class UserDAO extends TemplateDAO {
      */
     public boolean setPassword(int user_id, char[] password) throws SQLException {
         byte[] salt = Password.getSalt();
-        String sqlSentence2 = "UPDATE User SET password = ? , salt = ? WHERE userID = ?"; //change
+        String sqlSentence2 = "UPDATE User SET password = ? , salt = ? WHERE userID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence2)) {
             preparedStatement.setBytes(1, Password.hash(password, salt));
             preparedStatement.setBytes(2, salt);
@@ -148,12 +149,15 @@ public class UserDAO extends TemplateDAO {
      * @return true if password is correct, false if not
      * @throws SQLException if query fails
      */
-    public int isPasswordCorrect(String email, char[] password) throws SQLException {
+    public User isPasswordCorrect(String email, char[] password) throws SQLException {
         byte[] salt;
         byte[] hashed;
         ResultSet resultSet = null;
-        int result;
-        String sqlSentence = "SELECT salt, password, userID FROM User WHERE email = ?";
+        int userID;
+        String name;
+        boolean instructor_privileges;
+        User user;
+        String sqlSentence = "SELECT * FROM User WHERE email = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, email);
@@ -161,11 +165,14 @@ public class UserDAO extends TemplateDAO {
             if (resultSet.next()) {
                 salt = resultSet.getBytes("salt");
                 hashed = resultSet.getBytes("password");
-                result = resultSet.getInt("userID");
+                userID = resultSet.getInt("userID");
+                name = resultSet.getString("name");
+                instructor_privileges = resultSet.getBoolean("instructor_privileges");
+                user = new User(userID, name, email, instructor_privileges);
                 if (Password.verify(password, hashed, salt)) {
-                    return result;
+                    return user;
                 }
-                return -1;
+                return null;
             }
         } finally {
             if (resultSet != null) {
@@ -173,7 +180,7 @@ public class UserDAO extends TemplateDAO {
             }
         }
         Arrays.fill(password, 'a');
-        return -1;
+        return null;
     }
 
     /**
@@ -186,9 +193,9 @@ public class UserDAO extends TemplateDAO {
      */
 
     public boolean viewedPost(int userID, int threadID) {
-        String sqlstatement = "SELECT times_viewed From ViewedPosts WHERE userID = ? and threadID = ?";
-        String sqlstatement2 = "UPDATE ViewedPosts SET times_viewed = ? WHERE userID = ? and threadID = ?";
-        String sqlstatement3 = "INSERT INTO ViewedPosts(userID, threadID) VALUES(?,?)";
+        String sqlstatement = "SELECT times_viewed From ViewedPost WHERE userID = ? and threadID = ?";
+        String sqlstatement2 = "UPDATE ViewedPost SET times_viewed = ? WHERE userID = ? and threadID = ?";
+        String sqlstatement3 = "INSERT INTO ViewedPost(userID, threadID) VALUES(?,?)";
         ResultSet resultSet = null;
         int times_viewed = -1;
 
@@ -235,8 +242,8 @@ public class UserDAO extends TemplateDAO {
      * @return a status for the insert
      */
 
-    public boolean likethread(int userID, int threadID) {
-        String sqlstatement = "INSERT INTO likes(userID, threadID) VALUES(?,?)";
+    public boolean likeThread(int userID, int threadID) {
+        String sqlstatement = "INSERT INTO LikesThread(userID, threadID) VALUES(?,?)";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setInt(1, userID);
@@ -280,11 +287,11 @@ public class UserDAO extends TemplateDAO {
      */
 
     public ArrayList<UserOverview> overviewStatistics() {
-        String sqlstatement = "SELECT DISTINCT User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
+        String sqlstatement = "SELECT DISTINCT User.name, COUNT(ViewedPost.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
                 " FROM " +
                 "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID " +
                 "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID " +
-                "LEFT OUTER JOIN ViewedPosts ON User.userID = ViewedPosts.userID " +
+                "LEFT OUTER JOIN ViewedPost ON User.userID = ViewedPost.userID " +
                 "GROUP BY User.name ORDER BY nbreadpost DESC";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();
@@ -309,26 +316,4 @@ public class UserDAO extends TemplateDAO {
         return userOverviews;
     }
 
-/* Non-working code. May be useful at some point.
-    public User getUser(String email) throws SQLException {
-        String sqlSentence = "SELECT * FROM user WHERE email = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)) {
-            preparedStatement.setString(1, email);
-            System.out.println(preparedStatement);
-            ResultSet result = preparedStatement.executeQuery();
-            System.out.println(result.getInt(1));
-            System.out.println(result.getString(2));
-            System.out.println(result.getString(3));
-            System.out.println(result.getBoolean(7));
-            User user = new User(
-                    result.getInt(1),
-                    result.getString(2),
-                    result.getString(3),
-                    result.getBoolean(7));
-            return user;
-        } catch (SQLException sqlException) {
-            return null;
-        }
-    }
-*/
 }

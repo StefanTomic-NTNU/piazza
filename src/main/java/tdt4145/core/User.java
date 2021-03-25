@@ -9,13 +9,13 @@ public class User {
     private final int userID;
     private final String name;
     private final String email;
-    private final boolean instructor_priviliges;
+    private final boolean instructor_privileges;
 
-    public User(int userID, String name, String email, boolean instructor_priviligies) {
+    public User(int userID, String name, String email, boolean instructor_privileges) {
         this.userID = userID;
         this.name = name;
         this.email = email;
-        this.instructor_priviliges= instructor_priviligies;
+        this.instructor_privileges= instructor_privileges;
     }
 
     public int getUserID() {
@@ -30,7 +30,7 @@ public class User {
         return email;
     }
 
-    public boolean isInstructor_priviliges() {
-        return instructor_priviliges;
+    public boolean hasInstructor_privileges() {
+        return instructor_privileges;
     }
 }
