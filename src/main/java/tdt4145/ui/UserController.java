@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Creates an account based on the users input in the console.
  */
-public class CreateUser {
+public class UserController {
 
     private final static String emailRegex =
             "^[a-zA-Z0-9_+&*-]+(?:\\." +
@@ -86,5 +86,38 @@ public class CreateUser {
             sqlException.printStackTrace();
         }
         return false;
+    }
+
+    /**
+     * Prompts the user to login to an account using the console.
+     *
+     * @return True if login was successful, otherwise False.
+     */
+
+    public static int login() {
+        String email;
+        String password;
+        Scanner emailInput = new Scanner(System.in);
+        Scanner passwordInput = new Scanner(System.in);
+
+        System.out.print("Enter email: ");
+        email = emailInput.nextLine();
+
+        System.out.print("Enter password: ");
+        password = passwordInput.nextLine();
+        System.out.println();
+
+        try {
+            UserDAO dao = new UserDAO();
+            int userID = dao.isPasswordCorrect(email, password.toCharArray());
+            if (userID >= 0) {
+                return userID;
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        System.out.println("Email or password is incorrect");
+        return -1;
     }
 }

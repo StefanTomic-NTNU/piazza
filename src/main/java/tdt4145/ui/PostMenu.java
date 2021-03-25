@@ -1,16 +1,12 @@
 package tdt4145.ui;
 
-import tdt4145.core.ThreadDAO;
-
-import java.sql.SQLException;
 import java.util.Scanner;
-
 
 /**
  * Provides menu and information about posts and
  * handles inputs and outputs related to specific posts.
  */
-public class PostMenu implements Menu {
+public class PostMenu {
 
     /**
      * Provides a menu selection for the post selected in {openPostPrompt}.
@@ -37,18 +33,23 @@ public class PostMenu implements Menu {
     }
 
     /**
+     * Creates a comment on the selected post.
+     *
+     * @param selection      the post to comment on
+     * @param loggedInUserID is the currently logged in user.
+     */
+    public void comment(int selection, int loggedInUserID) {
+        ThreadController.comment(selection, loggedInUserID);
+    }
+
+    /**
      * Prints the information about a given post
      *
      * @param selection the post to be selected.
      */
     public void getInfo(int selection) {
         System.out.println("Printing of a Post's info is not yet implemented");
-        //TODO: get post title, comments, folder, and nr. of likes
-    }
-
-
-    public void comment(int selection, int loggedInUserID) {
-        CreateComment.create(selection, loggedInUserID);
+        //TODO
     }
 
     /**
@@ -56,6 +57,6 @@ public class PostMenu implements Menu {
      */
     public void likePost(int selection) {
         System.out.println("Liking a post is not yet implemented");
-        //TODO: add functionality for liking posts.
+        //TODO
     }
 }

@@ -16,6 +16,7 @@ public class CourseDAO extends TemplateDAO {
 
     /**
      * Insert in the db a new row in ActiveCourse
+     *
      * @param courseID that takes in the id for the course
      * @param term takes in the term for the course
      * @param year takes in the actual year

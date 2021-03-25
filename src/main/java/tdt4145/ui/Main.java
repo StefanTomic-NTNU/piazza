@@ -2,7 +2,6 @@ package tdt4145.ui;
 
 import tdt4145.core.Database;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,7 +21,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        WelcomeMenu welcomeMenu = new WelcomeMenu();
         MainMenu mainMenu = new MainMenu();
         PostMenu postMenu = new PostMenu();
 
@@ -50,9 +48,9 @@ public class Main {
         // Login and user creation
         int loggedInUserID = -1;
         while (loggedInUserID < 0) {
-            switch (welcomeMenu.menu()) {
-                case 1 -> loggedInUserID = Login.prompt();
-                case 2 -> CreateUser.create();
+            switch (mainMenu.welcomeMenu()) {
+                case 1 -> loggedInUserID = UserController.login();
+                case 2 -> UserController.create();
                 case 5 -> exit();
             }
         }
@@ -62,17 +60,14 @@ public class Main {
         while (loggedInUserID >= 0) {
 
             // Main menu selection
-            List<Object> posts = mainMenu.getPosts();
             switch (mainMenu.menu()) {
-                case 1 -> mainMenu.printPosts(posts);
-                case 2 -> mainMenu.searchPosts(posts);
+                case 1 -> mainMenu.printPosts();
+                case 2 -> mainMenu.searchPosts();
                 case 3 -> {
 
                     System.out.println("Select post to open");
                     System.out.print("Enter number: ");
                     int selection = new Scanner(System.in).nextInt();
-
-                    //TODO: Check if db contains post
 
                     // Nested switch statement for postMenu.
                     boolean postMenuStatus = true;
