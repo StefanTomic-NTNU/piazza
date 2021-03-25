@@ -30,7 +30,7 @@
   
 
   namespace tdt4145.ui {
-    class tdt4145.ui.ThreadController {
+    class tdt4145.ui.ThreadHandler {
         {static} + comment()
         {static} + post()
     }
@@ -38,11 +38,10 @@
   
 
   namespace tdt4145.ui {
-    class tdt4145.ui.UserController {
+    class tdt4145.ui.UserHandler {
         {static} - emailRegex : String
         {static} + create()
         {static} + login()
     }
   }
-
 @enduml
