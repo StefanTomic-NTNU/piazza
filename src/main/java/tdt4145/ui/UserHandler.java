@@ -1,6 +1,7 @@
 package tdt4145.ui;
 
 import tdt4145.core.DAOs.UserDAO;
+import tdt4145.core.User;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -92,7 +93,7 @@ public class UserHandler {
      *
      * @return True if login was successful, otherwise False.
      */
-    public static int login() {
+    public static User login() {
         String email;
         String password;
         Scanner emailInput = new Scanner(System.in);
@@ -107,15 +108,15 @@ public class UserHandler {
 
         try {
             UserDAO dao = new UserDAO();
-            int userID = dao.isPasswordCorrect(email, password.toCharArray());
-            if (userID >= 0) {
-                return userID;
+            User user = dao.isPasswordCorrect(email, password.toCharArray());
+            if (user != null) {
+                return user;
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
 
         System.out.println("Email or password is incorrect");
-        return -1;
+        return null;
     }
 }

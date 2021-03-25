@@ -1,5 +1,6 @@
 package tdt4145.core.DAOs;
 
+import tdt4145.core.User;
 import tdt4145.core.UserOverview;
 
 import java.sql.Connection;
@@ -147,12 +148,15 @@ public class UserDAO extends TemplateDAO {
      * @return true if password is correct, false if not
      * @throws SQLException if query fails
      */
-    public int isPasswordCorrect(String email, char[] password) throws SQLException {
+    public User isPasswordCorrect(String email, char[] password) throws SQLException {
         byte[] salt;
         byte[] hashed;
         ResultSet resultSet = null;
-        int result;
-        String sqlSentence = "SELECT salt, password, userID FROM User WHERE email = ?";
+        int userID;
+        String name;
+        boolean instructor_privileges;
+        User user;
+        String sqlSentence = "SELECT * FROM User WHERE email = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, email);
@@ -160,11 +164,14 @@ public class UserDAO extends TemplateDAO {
             if (resultSet.next()) {
                 salt = resultSet.getBytes("salt");
                 hashed = resultSet.getBytes("password");
-                result = resultSet.getInt("userID");
+                userID = resultSet.getInt("userID");
+                name = resultSet.getString("name");
+                instructor_privileges = resultSet.getBoolean("instructor_privileges");
+                user = new User(userID, name, email, instructor_privileges);
                 if (Password.verify(password, hashed, salt)) {
-                    return result;
+                    return user;
                 }
-                return -1;
+                return null;
             }
         } finally {
             if (resultSet != null) {
@@ -172,7 +179,7 @@ public class UserDAO extends TemplateDAO {
             }
         }
         Arrays.fill(password, 'a');
-        return -1;
+        return null;
     }
 
     /**
