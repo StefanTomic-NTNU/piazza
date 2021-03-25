@@ -102,7 +102,7 @@ public class FolderDAO extends TemplateDAO {
      */
 
     public int getFolderID(String name) {
-        String sqlstatement = "SELECT folderID FROM folder WHERE name = ?";
+        String sqlstatement = "SELECT folderID FROM Folder WHERE name = ?";
         ResultSet resultSet = null;
         try(PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)) {
             preparedStatement.setString(1, name);

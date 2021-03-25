@@ -189,7 +189,7 @@ public class ThreadDAO extends TemplateDAO {
      */
 
     public int getTagID(String label) {
-        String sqlstatement = "SELECT tagID FROM tags WHERE label = ?";
+        String sqlstatement = "SELECT tagID FROM Tags WHERE label = ?";
         ResultSet resultSet = null;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlstatement)){

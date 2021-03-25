@@ -281,7 +281,7 @@ public class UserDAO extends TemplateDAO {
                 " FROM " +
                 "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID " +
                 "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID " +
-                "LEFT OUTER JOIN viewedposts ON User.userID = viewedposts.userID " +
+                "LEFT OUTER JOIN ViewedPosts ON User.userID = ViewedPosts.userID " +
                 "GROUP BY User.name ORDER BY nbreadpost DESC";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();
