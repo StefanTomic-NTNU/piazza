@@ -1,4 +1,7 @@
-package tdt4145.core;
+package tdt4145.core.DAOs;
+
+import tdt4145.core.Password;
+import tdt4145.core.UserOverview;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -189,9 +192,9 @@ public class UserDAO extends TemplateDAO {
         ResultSet resultSet = null;
         int times_viewed = -1;
 
-        try(PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement);
-        PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2);
-        PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement3);) {
+        try (PreparedStatement preparedStatement1 = connection.prepareStatement(sqlstatement);
+             PreparedStatement preparedStatement2 = connection.prepareStatement(sqlstatement2);
+             PreparedStatement preparedStatement3 = connection.prepareStatement(sqlstatement3)) {
 
             connection.setAutoCommit(false);
 
