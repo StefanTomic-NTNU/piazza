@@ -36,8 +36,8 @@ public class CourseDAO extends TemplateDAO {
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -61,10 +61,12 @@ public class CourseDAO extends TemplateDAO {
             if(resultSet.next()){
                 return resultSet.getBoolean("allow_anonymous");
             }
+            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return false;
         }
-        return false;
+
     }
 
     /**
@@ -91,7 +93,7 @@ public class CourseDAO extends TemplateDAO {
             sq.printStackTrace();
         }finally {
             Cleanup.closeResultSet(resultSet);
+            return courses;
         }
-        return courses;
     }
 }

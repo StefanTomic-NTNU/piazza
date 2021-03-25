@@ -108,6 +108,7 @@ public class UserDAO extends TemplateDAO {
                 Cleanup.enableAutoCommit((connection));
                 return resultSet.getInt("last_insert_id()"); //returns int no longer boolean
             }
+            return -1;
         } catch (SQLException sq) {
             sq.printStackTrace();
             Cleanup.performRollback(connection);

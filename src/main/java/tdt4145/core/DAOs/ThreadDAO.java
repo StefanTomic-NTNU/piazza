@@ -42,13 +42,13 @@ public class ThreadDAO extends TemplateDAO {
             if (resultSet.next()) {
                 return resultSet.getInt("last_insert_id()");
             }
+            return -1;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return -1;
         }finally {
             Cleanup.closeResultSet(resultSet);
         }
-
-        return -1;
     }
 
     public boolean check_anonymous(int threadID) {
@@ -61,12 +61,13 @@ public class ThreadDAO extends TemplateDAO {
             if (resultSet.next()) {
                 return resultSet.getBoolean("anonymous");
             }
+            return false;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return false;
         } finally {
             Cleanup.closeResultSet(resultSet);
         }
-        return false;
     }
 
     /**
@@ -89,8 +90,8 @@ public class ThreadDAO extends TemplateDAO {
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -109,8 +110,8 @@ public class ThreadDAO extends TemplateDAO {
             return true;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -127,12 +128,13 @@ public class ThreadDAO extends TemplateDAO {
             if (resultSet.next()) {
                 return resultSet.getInt("parentID");
             }
+            return -1;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return -1;
         }finally {
             Cleanup.closeResultSet(resultSet);
         }
-        return -1;
     }
 
     /**
@@ -176,12 +178,14 @@ public class ThreadDAO extends TemplateDAO {
                 Tag tag = new Tag(tagid, label);
                 tags.add(tag);
             }
+            return tags;
         } catch (SQLException sq) {
             sq.printStackTrace();
+            return tags;
         }finally {
             Cleanup.closeResultSet(resultSet);
         }
-        return tags;
+
     }
 
     /**
@@ -200,12 +204,13 @@ public class ThreadDAO extends TemplateDAO {
             if (resultSet.next()) {
                 return resultSet.getInt("tagID");
             }
+            return -1;
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
+            return -1;
         }finally {
             Cleanup.closeResultSet(resultSet);
         }
-        return -1;
     }
 
     /**
@@ -232,13 +237,12 @@ public class ThreadDAO extends TemplateDAO {
                 id = resultSet.getInt("threadID");
                 ids.add(id);
             }
+            return ids;
         } catch (SQLException sq) {
             sq.printStackTrace();
-
+            return ids;
         }finally {
             Cleanup.closeResultSet(resultSet);
-          return ids;
         }
-        
     }
 }
