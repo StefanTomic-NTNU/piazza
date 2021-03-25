@@ -18,7 +18,9 @@ The motivation for this project is learning and demonstrating the use and handli
 
 #### Starting the application
 
-The application can be run using the main() method in the [**Main**](src/main/java/tdt4145/ui/Main.java) class.
+The application can be run using the command `gradlew run` in the root folder.
+
+Alternatively you may run the main() method in the [**Main**](src/main/java/tdt4145/ui/Main.java) class.
 
 #### Documentation
 Diagrams can be found [here](documentation/UML).
