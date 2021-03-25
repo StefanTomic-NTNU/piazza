@@ -128,7 +128,7 @@ public class UserDAO extends TemplateDAO {
      */
     public boolean setPassword(int user_id, char[] password) throws SQLException {
         byte[] salt = Password.getSalt();
-        String sqlSentence2 = "UPDATE User SET password = ? , salt = ? WHERE userID = ?"; //change
+        String sqlSentence2 = "UPDATE User SET password = ? , salt = ? WHERE userID = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence2)) {
             preparedStatement.setBytes(1, Password.hash(password, salt));
             preparedStatement.setBytes(2, salt);
@@ -279,11 +279,11 @@ public class UserDAO extends TemplateDAO {
      */
 
     public ArrayList<UserOverview> overviewStatistics() {
-        String sqlstatement = "SELECT DISTINCT User.name, COUNT(ViewedPosts.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
+        String sqlstatement = "SELECT DISTINCT User.name, COUNT(ViewedPost.userID) AS nbreadpost, COUNT(p.threadID) AS nbpost" +
                 " FROM " +
                 "User LEFT OUTER JOIN Thread ON User.userID = Thread.userID " +
                 "LEFT OUTER JOIN Post as p ON p.threadID = Thread.threadID " +
-                "LEFT OUTER JOIN ViewedPosts ON User.userID = ViewedPosts.userID " +
+                "LEFT OUTER JOIN ViewedPost ON User.userID = ViewedPost.userID " +
                 "GROUP BY User.name ORDER BY nbreadpost DESC";
         ResultSet resultSet = null;
         ArrayList<UserOverview> userOverviews = new ArrayList<>();
