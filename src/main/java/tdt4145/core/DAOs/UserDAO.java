@@ -308,26 +308,4 @@ public class UserDAO extends TemplateDAO {
         return userOverviews;
     }
 
-/* Non-working code. May be useful at some point.
-    public User getUser(String email) throws SQLException {
-        String sqlSentence = "SELECT * FROM user WHERE email = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlSentence)) {
-            preparedStatement.setString(1, email);
-            System.out.println(preparedStatement);
-            ResultSet result = preparedStatement.executeQuery();
-            System.out.println(result.getInt(1));
-            System.out.println(result.getString(2));
-            System.out.println(result.getString(3));
-            System.out.println(result.getBoolean(7));
-            User user = new User(
-                    result.getInt(1),
-                    result.getString(2),
-                    result.getString(3),
-                    result.getBoolean(7));
-            return user;
-        } catch (SQLException sqlException) {
-            return null;
-        }
-    }
-*/
 }
