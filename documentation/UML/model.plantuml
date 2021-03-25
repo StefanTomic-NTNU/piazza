@@ -1,0 +1,51 @@
+@startuml
+  namespace tdt4145.core.model {
+    class tdt4145.core.model.Course {
+        + courseID : int
+        + name : String
+        + Course()
+        + getCourseID()
+        + getName()
+    }
+  }
+  
+
+  namespace tdt4145.core.model {
+    class tdt4145.core.model.Tag {
+        - label : String
+        - tagID : int
+        + Tag()
+        + getLabel()
+        + getTagID()
+    }
+  }
+  
+
+  namespace tdt4145.core.model {
+    class tdt4145.core.model.User {
+        - email : String
+        - instructor_privileges : boolean
+        - name : String
+        - userID : int
+        + User()
+        + getEmail()
+        + getName()
+        + getUserID()
+        + hasInstructor_privileges()
+    }
+  }
+  
+
+  namespace tdt4145.core.model {
+    class tdt4145.core.model.UserOverview {
+        - name : String
+        - nbpost : int
+        - nbreadposts : int
+        + UserOverview()
+        + getName()
+        + getNbpost()
+        + getNbreadposts()
+        + toString()
+    }
+  }
+@enduml
