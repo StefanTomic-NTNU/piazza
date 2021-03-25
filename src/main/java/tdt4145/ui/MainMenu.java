@@ -62,7 +62,7 @@ public class MainMenu {
      * Creates a new post and adds it to the database.
      */
     public void createPost(int loggedInUserID) {
-        ThreadController.post(loggedInUserID);
+        ThreadHandler.post(loggedInUserID);
     }
 
     /**

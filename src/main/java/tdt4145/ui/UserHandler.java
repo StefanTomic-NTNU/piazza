@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Creates an account based on the users input in the console.
  */
-public class UserController {
+public class UserHandler {
 
     private final static String emailRegex =
             "^[a-zA-Z0-9_+&*-]+(?:\\." +

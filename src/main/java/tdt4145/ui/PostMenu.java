@@ -39,7 +39,7 @@ public class PostMenu {
      * @param loggedInUserID is the currently logged in user.
      */
     public void comment(int selection, int loggedInUserID) {
-        ThreadController.comment(selection, loggedInUserID);
+        ThreadHandler.comment(selection, loggedInUserID);
     }
 
     /**

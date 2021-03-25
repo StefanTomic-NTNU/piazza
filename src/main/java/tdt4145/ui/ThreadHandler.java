@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * Creates Posts and Comments and a corresponding Thread.
  */
-public class ThreadController {
+public class ThreadHandler {
 
     /**
      * Creates a post
