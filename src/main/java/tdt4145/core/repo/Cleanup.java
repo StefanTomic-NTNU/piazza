@@ -1,4 +1,4 @@
-package tdt4145.core.DAOs;
+package tdt4145.core.repo;
 
 import java.sql.*;
 import java.util.logging.Level;

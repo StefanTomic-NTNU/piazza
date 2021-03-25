@@ -1,4 +1,4 @@
-package tdt4145.core;
+package tdt4145.core.model;
 
 /**
  * Tag class that stores tagid and label

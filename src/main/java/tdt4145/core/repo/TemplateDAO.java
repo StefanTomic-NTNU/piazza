@@ -1,6 +1,4 @@
-package tdt4145.core.DAOs;
-
-import tdt4145.core.Database;
+package tdt4145.core.repo;
 
 import java.sql.Connection;
 import java.sql.SQLException;

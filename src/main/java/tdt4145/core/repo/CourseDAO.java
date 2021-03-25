@@ -1,6 +1,6 @@
-package tdt4145.core.DAOs;
+package tdt4145.core.repo;
 
-import tdt4145.core.Course;
+import tdt4145.core.model.Course;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

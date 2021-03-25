@@ -2,7 +2,7 @@
 allow_mixing
 
   namespace tdt4145.core {
-      class tdt4145.core.Course {
+      class tdt4145.core.model.Course {
           + courseID : int
           + name : String
           + Course()
@@ -22,7 +22,7 @@ allow_mixing
 
 
     namespace tdt4145.core {
-      class tdt4145.core.Database {
+      class tdt4145.core.repo.Database {
           {static} - DATABASE_DRIVER : String
           {static} - DATABASE_PASSWORD : String
           {static} - DATABASE_URL : String
@@ -39,7 +39,7 @@ allow_mixing
 
 
     namespace tdt4145.core {
-      class tdt4145.core.Tag {
+      class tdt4145.core.model.Tag {
           - label : String
           - tagID : int
           + Tag()
@@ -50,7 +50,7 @@ allow_mixing
 
 
     namespace tdt4145.core {
-      class tdt4145.core.UserOverview {
+      class tdt4145.core.model.UserOverview {
           - name : String
           - nbpost : int
           - nbreadposts : int

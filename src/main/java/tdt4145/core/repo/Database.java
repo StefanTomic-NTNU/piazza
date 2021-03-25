@@ -1,4 +1,4 @@
-package tdt4145.core;
+package tdt4145.core.repo;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 

@@ -1,6 +1,6 @@
-package tdt4145.core.DAOs;
+package tdt4145.core.repo;
 
-import tdt4145.core.Tag;
+import tdt4145.core.model.Tag;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

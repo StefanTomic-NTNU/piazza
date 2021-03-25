@@ -1,7 +1,8 @@
-package tdt4145.core.DAOs;
+package tdt4145.core.repo;
 
-import tdt4145.core.User;
-import tdt4145.core.UserOverview;
+import tdt4145.core.model.User;
+import tdt4145.core.model.Password;
+import tdt4145.core.model.UserOverview;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
