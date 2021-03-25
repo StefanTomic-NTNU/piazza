@@ -15,11 +15,6 @@ apply plugin: 'com.github.johnrengelman.shadow'
 group 'gr148'
 version '1.0-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(15)
-    }
-}
 
 repositories {
     mavenCentral()

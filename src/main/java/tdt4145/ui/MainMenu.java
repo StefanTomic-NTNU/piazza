@@ -1,8 +1,11 @@
 package tdt4145.ui;
 
 import tdt4145.core.ThreadDAO;
+import tdt4145.core.UserDAO;
+import tdt4145.core.UserOverview;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
