@@ -3,6 +3,11 @@ package tdt4145.core.DAOs;
 import java.sql.*;
 import java.util.logging.Level;
 
+/**
+ * Just a class with a bunch of convenient methods used in the DAOs
+ *
+ */
+
 public class Cleanup {
 
     static void enableAutoCommit(Connection connection) {
